@@ -19,7 +19,7 @@ Xor của 2 **word** $u, v$ là $u ⊕ v$. Cụ thể, nếu $u = \sum_{i} 2^i u
 Với mỗi $c \in$ { $0, 1, 2, 3,...$ }, phép quay trái bit của một **word** $u$ được ký hiệu là $u <<< c$. Hay hiểu theo cách khác, nếu $u = \sum_{i} 2^i u_i$ thì $u <<< c = \sum_{i} 2^{i+c mod 32} u_i$. Ví dụ, `0xc0a8787e <<< 5 = 0x150f0fd8`.
 
 ## 3. Hàm `phần tư` (`quarterround` function)
-### Các input và output
+### input và output
 Nếu $y$ là một chuỗi 4 **word** thì `quarterround(y)` là một chuỗi 4 **word**
 ### Định nghĩa
 Nếu $y = (y_0, y_1, y_2, y_3)$ thì `quarterround(y)` -> $(z_0, z_1, z_2, z_3)$. Trong đó:
@@ -27,8 +27,7 @@ Nếu $y = (y_0, y_1, y_2, y_3)$ thì `quarterround(y)` -> $(z_0, z_1, z_2, z_3)
 - $z_2 = y_2 ⊕ ((z_1 + y_0) <<< 9)$
 - $z_3 = y_3 ⊕ ((z_2 + z_1) <<< 13)$
 - $z_0 = y_0 ⊕ ((z_3 + z_2) <<< 18)$
-
-Ví dụ:
+### Ví dụ
 ```
 quarterround(0x00000000; 0x00000000; 0x00000000; 0x00000000) = (0x00000000; 0x00000000; 0x00000000; 0x00000000)
 quarterround(0x00000001; 0x00000000; 0x00000000; 0x00000000) = (0x08008145; 0x00000080; 0x00010200; 0x20500000)
@@ -40,11 +39,49 @@ quarterround(0xd3917c5b; 0x55f1c407; 0x52a58a7a; 0x8f887a3b) = (0x3e2f308c; 0xd9
 ```
 
 ## 4. Hàm `rowround`
-### Các input và output
+### input và output
 Nếu $y$ là một chuỗi 16 **word** thì `rowround(y)` là một chuỗi 16 **word**
+
+$$\left(\begin{array}{cc} 
+y_0 & y_1 & y_2 & y_3 \\
+y_4 & y_5 & y_6 & y_7 \\
+y_8 & y_9 & y_{10} & y_{11} \\
+y_{12} & y_{13} & y_{14} & y_{15}
+\end{array}\right)$$
+
 ### Định nghĩa
-Nếu $y = (y_0, y_1, y_2,..., y_15)$ thì `rowround(y)` -> $(z_0, z_1, z_2,..., z_15)$. Trong đó:
+Nếu $y = (y_0, y_1, y_2,..., y_{15})$ thì `rowround(y)` -> $(z_0, z_1, z_2,..., z_{15})$. Trong đó:
 - $(z_0, z_1, z_2, z_3) = quarterround(y_0, y_1, y_2, y_3)$
 - $(z_5, z_6, z_7, z_4) = quarterround(y_5, y_6, y_7, y_4)$
 - $(z_{10}, z_{11}, z_8, z_9) = quarterround(y_{10}, y_{11}, y_8, y_9)$
 - $(z_{15}, z_{12}, z_{13}, z_{14}) = quarterround(y_{15}, y_{12}, y_{13}, y_{14})$
+### Ví dụ
+```
+rowround(0x00000001; 0x00000000; 0x00000000; 0x00000000;
+        0x00000001; 0x00000000; 0x00000000; 0x00000000;
+        0x00000001; 0x00000000; 0x00000000; 0x00000000;
+        0x00000001; 0x00000000; 0x00000000; 0x00000000)
+= (0x08008145; 0x00000080; 0x00010200; 0x20500000;
+  0x20100001; 0x00048044; 0x00000080; 0x00010000;
+  0x00000001; 0x00002000; 0x80040000; 0x00000000;
+  0x00000001; 0x00000200; 0x00402000; 0x88000100):
+  
+rowround(0x08521bd6; 0x1fe88837; 0xbb2aa576; 0x3aa26365;
+        0xc54c6a5b; 0x2fc74c2f; 0x6dd39cc3; 0xda0a64f6;
+        0x90a2f23d; 0x067f95a6; 0x06b35f61; 0x41e4732e;
+        0xe859c100; 0xea4d84b7; 0x0f619bff; 0xbc6e965a)
+= (0xa890d39d; 0x65d71596; 0xe9487daa; 0xc8ca6a86;
+  0x949d2192; 0x764b7754; 0xe408d9b9; 0x7a41b4d1;
+  0x3402e183; 0x3c3af432; 0x50669f96; 0xd89ef0a8;
+  0x0040ede5; 0xb545fbce; 0xd257ed4f; 0x1818882d)
+```
+
+## 5. Hàm `columnround`
+### input và output
+Nếu $y$ là một chuỗi 16 **word** thì `columnround(y)` là một chuỗi 16 **word**
+### Định nghĩa
+Nếu $y = (y_0, y_1, y_2,..., y_{15})$ thì `columnround(y)` -> $(z_0, z_1, z_2,..., z_{15})$. Trong đó:
+- $(z_0, z_4, z_8, z_12) = quarterround(y_0, y_4, y_8, y_{12})$
+- $(z_5, z_9, z_{13}, z_1) = quarterround(y_5, y_9, y_{13}, y_1)$
+- $(z_{10}, z_{14}, z_2, z_6) = quarterround(y_{10}, y_{14}, y_2, y_6)$
+- $(z_{15}, z_3, z_7, z_{11}) = quarterround(y_{15}, y_3, y_7, y_{11})$
