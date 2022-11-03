@@ -14,7 +14,7 @@ Tổng của 2 **word** $u, v$ là $u + v mod 2^{32}$. Ví dụ ` 0xc0a8787e + 0
 
 Xor của 2 **word** $u, v$ là $u ⊕ v$. Cụ thể, nếu $u = \sum_{i} 2^i u_i$ và $v = \sum_{i} 2^i v_i$ thì $u ⊕ v = \sum_{i} 2^i (u_i+v_i-2u_iv_i)$. Ví dụ: `0xc0a8787e ⊕ 0x9fd1161d = 0x5f796e63`
 
-Với mỗi $c \in$ { $0, 1, 2, 3,...$ }, phép quay trái bit của một **word** $u$ được ký hiệu là $u <<< c$. Hay hiểu theo cách khác, nếu $u = \sum_{i} 2^i u_i$ thì $u <<< c = \sum_{i} 2^{i+c mod 32} u_i$. Ví dụ, `0xc0a8787e <<< 5 = 0x150f0fd8`.
+Với mỗi $c \in$ { $0, 1, 2, 3,...$ }, phép quay trái c bit (c-bit left rotation) của một **word** $u$ được ký hiệu là $u <<< c$. Hay hiểu theo cách khác, nếu $u = \sum_{i} 2^i u_i$ thì $u <<< c = \sum_{i} 2^{i+c mod 32} u_i$. Ví dụ, `0xc0a8787e <<< 5 = 0x150f0fd8`.
 
 ## 3. Hàm `quarterround`
 ### input và output
