@@ -25,7 +25,8 @@ Nếu $y = (y_0, y_1, y_2, y_3)$ thì `quarterround(y)` -> $(z_0, z_1, z_2, z_3)
 - $z_2 = y_2 ⊕ ((z_1 + y_0) <<< 9)$
 - $z_3 = y_3 ⊕ ((z_2 + z_1) <<< 13)$
 - $z_0 = y_0 ⊕ ((z_3 + z_2) <<< 18)$
-Nghe vài bước đầu có vẻ khó khăn nhưng làm nhiều sẽ quen thôi :grinning:
+
+Trông vài bước đầu có vẻ khó khăn nhưng làm nhiều sẽ quen thôi :grinning:
 ### Ví dụ
 ```
 quarterround(0x00000000; 0x00000000; 0x00000000; 0x00000000) = (0x00000000; 0x00000000; 0x00000000; 0x00000000)
@@ -118,3 +119,17 @@ Còn ví dụ thì nếu 2 hàm trên chính xác rồi, không cần test nữa
 ### input và output
 Với b là mỗi chuỗi 4 byte, output của littleendian(b) là một **word**
 ### Định nghĩa
+Nếu $b = (b_0, b_1, b_2, b_3)$ thì $littleendian(b) = b_0 + 2^8b_1 + 2^{16}b_2 + 2^{24}b_3$
+### Ví dụ
+```
+littleendian(0, 0, 0, 0) = 0x00000000
+littleendian(86, 75, 30;, 9) = 0x091e4b56
+littleendian(255, 255, 255, 250) = 0xfaffffff
+```
+## 8. Hàm băm Salsa20
+### input và output
+Nếu $x$ là một chuỗi 64 byte thì `Salsa20(x)` là một chuỗi 64 byte
+### Định nghĩa
+$Salsa20(x) = x + doubleround^{10}(x)$, trong đó mỗi chuỗi 4 byte được xem như một word ở dạng little-endian
+
+Chi tiết:
