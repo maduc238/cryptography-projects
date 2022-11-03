@@ -8,7 +8,7 @@ Phần dưới đây sẽ nói chi tiết vầ Salsa20, bắt đầu từ ba tha
 
 ## 2. word
 
-Một **word** là một phần tử trong tập { $0, 1, ..., 2^{32}-1$ }. các **word** trong tài liệu này sẽ thường được viết bằng hexa, bao gồm cả ký tự `0x`. Ví dụ, `0xc0a8787e` = $12 · 2^{28} + 0  2^{24} + 10 · 2^{20} + 8 · 2^{16} + 7 · 2^{12} + 8 · 2^8 + 7 · 2^4 + 14 · 2^0 = 3232266366$
+Một **word** là một phần tử trong tập { $0, 1, ..., 2^{32}-1$ }. các **word** trong tài liệu này sẽ thường được viết bằng hexa, bao gồm cả ký tự `0x`. Ví dụ, `0xc0a8787e` = $12 · 2^{28} + 0 · 2^{24} + 10 · 2^{20} + 8 · 2^{16} + 7 · 2^{12} + 8 · 2^8 + 7 · 2^4 + 14 · 2^0 = 3232266366$
 
 Tổng của 2 **word** $u, v$ là $u + v mod 2^{32}$. Ví dụ ` 0xc0a8787e + 0x9fd1161d = 0x60798e9b`
 
