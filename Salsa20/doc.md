@@ -220,3 +220,5 @@ Công thức ra **ciphertext** $Salsa20_k(v) ⊕ m$ nghĩa là cắt ngắn $Sal
 $Salsa20_k(v) ⊕ (m[0], m[1], ..., m[l-1]) = (c[0], c[1], ..., c[l-1])$
 
 Khi $c[i] = m[i] ⊕ Salsa20_k(v, \bar{int(i/64)})[i mod 64]$
+
+Thế là hết :dizzy_face:
