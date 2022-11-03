@@ -126,10 +126,17 @@ littleendian(0, 0, 0, 0) = 0x00000000
 littleendian(86, 75, 30;, 9) = 0x091e4b56
 littleendian(255, 255, 255, 250) = 0xfaffffff
 ```
-## 8. Hàm băm Salsa20
+## 8. Hàm băm `Salsa20`
 ### input và output
 Nếu $x$ là một chuỗi 64 byte thì `Salsa20(x)` là một chuỗi 64 byte
 ### Định nghĩa
 $Salsa20(x) = x + doubleround^{10}(x)$, trong đó mỗi chuỗi 4 byte được xem như một word ở dạng little-endian
 
-Chi tiết:
+Chi tiết: Bắt đầu từ $x = (x[0], x[1], ..., x[63])$, ta định nghĩa
+- $x_0 = littleendian(x[0], x[1], x[2], x[3]),$
+- $x_1 = littleendian(x[4], x[5], x[6], x[7]),$
+- $x_2 = littleendian(x[8], x[9], x[10], x[11]),$
+- $...$
+- $x_{15} = littleendian(x[60], x[61], x[62], x[63])$
+
+Ta định nghĩa $(z_0, z_1, ..., z_{15}) = doubleround^{10}(x_0, x_1, ..., x_{15})$
