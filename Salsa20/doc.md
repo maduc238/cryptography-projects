@@ -210,3 +210,13 @@ Với $k$ là một chuỗi 32 byte hoặc 16 byte. $m$ là một chuỗi $l$ by
 
 ### Định nghĩa
 $Salsa20_k(v)$ là một chuỗi $2^{70}$ byte
+
+$Salsa20_k(v, \bar{0}), Salsa20_k(v,\bar{1}), Salsa20_k(v, \bar{2}), ..., Salsa20_k(v,\bar{2^{64} − 1})$
+
+Trong đó $\bar{i}$ là chuỗi 8 byte duy nhất $(i_0, i_1, ..., i_7)$ sao cho $i = i_0 + 2^8i_1 + 2^{16}i_2 + ... + 2^{56}i_7$
+
+Công thức ra **ciphertext** $Salsa20_k(v) ⊕ m$ nghĩa là cắt ngắn $Salsa20_k(v)$ có cùng chiều dài với $m$. Nói cách khác,
+
+$Salsa20_k(v) ⊕ (m[0], m[1], ..., m[l-1]) = (c[0], c[1], ..., c[l-1])$
+
+Khi $c[i] = m[i] ⊕ Salsa20_k(v, \bar{int(i/64)})[i mod 64]$
