@@ -123,7 +123,7 @@ Nếu $b = (b_0, b_1, b_2, b_3)$ thì $littleendian(b) = b_0 + 2^8b_1 + 2^{16}b_
 ### Ví dụ
 ```
 littleendian(0, 0, 0, 0) = 0x00000000
-littleendian(86, 75, 30;, 9) = 0x091e4b56
+littleendian(86, 75, 30, 9) = 0x091e4b56
 littleendian(255, 255, 255, 250) = 0xfaffffff
 ```
 ## 8. Hàm `Salsa20` hash
