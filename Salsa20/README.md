@@ -4,7 +4,7 @@
 
 **Salsa20** là một hàm băm với input là 64 byte và output là 64 byte. Hàm băm được sử dụng trong chế độ bộ đếm như một mã dòng: **Salsa20** mã hóa khối 64 byte plaintext bằng cách băm key, số nonce, và số block và thực hiện xor với plaintext. Trước đó ta phải định nghĩa một byte là một phần tử của {0, 1, ..., 255}
 
-Phần dưới đây sẽ nói chi tiết vầ Salsa20, bắt đầu từ ba thao tác đơn giản trên các từ 4 byte, sau đó thông qua hàm băm **Salsa20** và kết thúc với hàm encryption. Nghe có vẻ khó khăn :sweat_smile: nhưng các bước dưới dây sẽ nói rõ một số hàm cụ thể và có cái nhìn khái quát dễ hiểu hơn.
+Phần dưới đây sẽ nói chi tiết một vài hàm được sử dụng và cách cipher plaintext với Salsa20 này. Bắt đầu từ ba thao tác đơn giản trên 4 word tương ứng với 4 byte, sau đó thông qua hàm băm **Salsa20** và kết thúc với hàm encryption. Nghe có vẻ khó khăn :sweat_smile: nhưng các bước dưới dây sẽ nói rõ một số hàm cụ thể và có cái nhìn khái quát dễ hiểu hơn.
 
 ## 2. word
 
