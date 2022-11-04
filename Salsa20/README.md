@@ -200,7 +200,7 @@ Salsa20(101,120,112, 97,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,
 ```
 ## 10. Hàm `Salsa20` encryption
 ### input và output
-Với $k$ là một chuỗi 32 byte hoặc 16 byte. $m$ là một chuỗi $l$ byte với $m \in$ { $0, 1, ..., 2^{70}$}. **Salsa20 encryption** của $m$ với **nonce** $v$ dưới **key** $k$ được ký hiệu là $Salsa20_k(v) ⊕ m$ là một chuỗi $l$ byte
+Với $k$ là một chuỗi 32 byte hoặc 16 byte. $m$ là một chuỗi $l$ byte với $m \in$ { $0, 1, ..., 2^{70}$ }. **Salsa20 encryption** của $m$ với **nonce** $v$ dưới **key** $k$ được ký hiệu là $Salsa20_k(v) ⊕ m$ là một chuỗi $l$ byte
 
 Để dễ hiểu hơn:
 - $k$ là **secret key** của chúng ta
