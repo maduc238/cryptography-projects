@@ -31,7 +31,6 @@ Nếu $y = (y_0, y_1, y_2, y_3)$ thì `quarterround(y)` -> $(z_0, z_1, z_2, z_3)
 - $z_3 = y_3 ⊕ ((z_2 + z_1) <<< 13)$
 - $z_0 = y_0 ⊕ ((z_3 + z_2) <<< 18)$
 
-Trông vài bước đầu có vẻ khó khăn nhưng làm nhiều sẽ quen thôi :grinning:
 ### Ví dụ
 ```
 quarterround(0x00000000, 0x00000000, 0x00000000, 0x00000000) = (0x00000000, 0x00000000, 0x00000000, 0x00000000)
@@ -60,6 +59,9 @@ Nếu $y = (y_0, y_1, y_2,..., y_{15})$ thì `rowround(y)` -> $(z_0, z_1, z_2,..
 - $(z_5, z_6, z_7, z_4) = quarterround(y_5, y_6, y_7, y_4)$
 - $(z_{10}, z_{11}, z_8, z_9) = quarterround(y_{10}, y_{11}, y_8, y_9)$
 - $(z_{15}, z_{12}, z_{13}, z_{14}) = quarterround(y_{15}, y_{12}, y_{13}, y_{14})$
+
+Nhìn ma trận bên trên sẽ thấy được quy luật của nó :new_moon_with_face:
+
 ### Ví dụ
 ```
 rowround(0x00000001, 0x00000000, 0x00000000, 0x00000000,
