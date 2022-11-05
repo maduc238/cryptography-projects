@@ -233,4 +233,10 @@ $Salsa20_k(v) ⊕ (m[0], m[1], ..., m[l-1]) = (c[0], c[1], ..., c[l-1])$
 
 Khi $c[i] = m[i] ⊕ Salsa20_k(v, \bar{int(i/64)})[i mod 64]$
 
+Để dễ hiểu hơn thì cách tạo cipher text sẽ như hình dưới
+
+![image](https://user-images.githubusercontent.com/95759699/200104685-63bace58-3628-4240-9374-ad7cc15092fa.png)
+
+
+
 Thế là hết :dizzy_face:
