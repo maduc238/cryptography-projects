@@ -37,11 +37,15 @@ Chỉ cần nhập văn bản vào mục Plaintext, cùng với đó là nonce (
 
 Ví dụ với input như này: 
 
-![image](https://user-images.githubusercontent.com/95759699/200100375-aac2a4b7-cb9b-4abb-a941-f3c54ddf33f0.png)
+![image](https://user-images.githubusercontent.com/95759699/200100631-95c70b9d-e002-463a-b60a-1019cd85da7b.png)
 
 Sau khi ấn `Submit` sẽ thu đươc kết quả:
 
-![image](https://user-images.githubusercontent.com/95759699/200100397-c10b791a-f48b-4917-ab40-c35b8334e0f7.png)
+![image](https://user-images.githubusercontent.com/95759699/200100639-5fc6f4af-0c88-4f97-b27e-ad7654a31586.png)
 
 Ngoài ra cách giải mã, bạn chỉ cần nhập ngược lại thôi :sunglasses:
+
+![image](https://user-images.githubusercontent.com/95759699/200100648-7009cb9f-6a68-4402-8ee9-68cbbb185977.png)
+
+![image](https://user-images.githubusercontent.com/95759699/200100654-a4e6f295-15fe-4cea-9cc4-9217e42fa9cf.png)
 
