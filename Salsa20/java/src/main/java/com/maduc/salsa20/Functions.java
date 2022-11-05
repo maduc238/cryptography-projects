@@ -211,4 +211,34 @@ public class Functions {
         return result;
     }
 
+    /**
+     * Chuyển dạng văn bản thông thường thành dạng Hexa
+     * @param text văn bản thông thường, tiếng Việt hay tiếng Anh cũng được :)
+     * @return String dạng hexa
+     */
+    public static String convertToHex(String text) {
+        StringBuffer sb = new StringBuffer("");
+        for(int i=0; i<text.length(); i++) {
+            sb.append( String.format("%02x", (int)text.charAt(i)));
+        }
+        String result = sb.toString();
+        return result;
+    }
+
+    /**
+     * Chuyển dạng String hexa sang văn bản thông thường
+     * @param hexa String dạng hexa
+     * @return văn bản thông thường
+     */
+    public static String convertToText(String hexa) {
+        StringBuffer sb = new StringBuffer("");
+        for(int i=0; i<hexa.length(); i+=2) {
+            String s = hexa.substring(i, (i + 2));
+            int decimal = Integer.parseInt(s, 16);
+            sb.append((char)decimal);
+        }       
+        String result = sb.toString();
+        return result;
+    }
+
 }

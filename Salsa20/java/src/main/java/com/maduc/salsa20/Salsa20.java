@@ -25,7 +25,7 @@ public class Salsa20 {
                 int j = 0;
                 while(j < 64) {
                     ciphertext += (char) (a[j] ^ (int)plaintext.charAt(64*i + j));
-                    // System.out.print(String.format("%2x ",(a[j] ^ (int)plaintext.charAt(64*i + j))));
+                    // System.out.print(String.format("%02x ",(a[j] ^ (int)plaintext.charAt(64*i + j))));
                     count++; j++;
                     if (count == len) return ciphertext;
 
@@ -37,7 +37,7 @@ public class Salsa20 {
                 int j = 0;
                 while(j < 64) {
                     ciphertext += (char) (a[j] ^ (int)plaintext.charAt(64*i + j));
-                    // System.out.print(String.format("%2x ",(a[j] ^ (int)plaintext.charAt(64*i + j))));
+                    // System.out.print(String.format("%02x ",(a[j] ^ (int)plaintext.charAt(64*i + j))));
                     count++; j++;
                     if (count == len) return ciphertext;
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Salsa20</title>
+</head>
+<body>
+
+<h1>Salsa20</h1>
+
+<a href="/about">About</a>
+
+<form method="get" action="/result">
+  <a>Plaintext: </a><br>
+  <input type="text" name="plaintext">
+  <input type="checkbox" name="p_hex" value="true">
+  <label for="p_hex"> Dạng hexa</label><br>
+
+  <a>Nonce. Yêu cầu 8 byte: </a><br>
+  <a>(Một giá trị chỉ sử dụng duy nhất 1 một lần cho một lần mã hóa)</a><br>
+  <input type="text" name="nonce">
+  <input type="checkbox" name="n_hex" value="true">
+  <label for="n_hex"> Dạng hexa</label><br>
+
+  <a>Secret key. Yêu cầu 16 hoặc 32 byte: </a><br>
+  <input type="text" name="key">
+  <input type="checkbox" name="k_hex" value="true">
+  <label for="k_hex"> Dạng hexa</label><br>
+
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>
