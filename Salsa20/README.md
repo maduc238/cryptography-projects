@@ -150,6 +150,11 @@ Ta định nghĩa $(z_0, z_1, ..., z_{15}) = doubleround^{10}(x_0, x_1, ..., x_{
 - $littleendian^{−1}(z_2 + x_2),$
 - $...$
 - $littleendian^{−1}(z_{15} + x_{15})$
+
+Hay dễ hiểu hơn sẽ như hình dưới đây
+
+![image](https://user-images.githubusercontent.com/95759699/200102458-072e68b9-7009-42a6-9bcc-ae944ea740b8.png)
+
 ### Ví dụ
 ```
 Salsa20(211,159, 13,115, 76, 55, 82,183,  3,117,222, 37,191,187,234,136,
