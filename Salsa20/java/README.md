@@ -20,3 +20,28 @@ git clone https://github.com/maduc238/cryptography-projects.git
 
 Sau đó mở VSCode, cài các Extensions cần thiết cho support việc chạy Java
 ![image](https://user-images.githubusercontent.com/95759699/200100167-addf631d-5c5f-402d-be08-b9fa6ba8a513.png)
+
+Vào file `Application.java`. Tại đây nhấn `run` để chạy app
+
+![image](https://user-images.githubusercontent.com/95759699/200100208-96336411-aff4-4407-8ce6-206d01cec371.png)
+
+Sau đó chỉ cần đợi load code thôi :grimacing:
+
+Khi chạy xong, truy cập vào địa chỉ http://127.0.0.1:8080/. Lúc này giao diện của bạn sẽ hiển thị
+
+![image](https://user-images.githubusercontent.com/95759699/200100269-36c7067e-83d8-41f4-9185-d409e2b6b9b8.png)
+
+## Sử dụng
+
+Chỉ cần nhập văn bản vào mục Plaintext, cùng với đó là nonce (bắt buộc 8 byte) và key (bắt buộc 16 hoặc 32 byte). Ngoài ra tại ô check box bạn cũng có thể sử dụng input dạng hexa
+
+Ví dụ với input như này: 
+
+![image](https://user-images.githubusercontent.com/95759699/200100375-aac2a4b7-cb9b-4abb-a941-f3c54ddf33f0.png)
+
+Sau khi ấn `Submit` sẽ thu đươc kết quả:
+
+![image](https://user-images.githubusercontent.com/95759699/200100397-c10b791a-f48b-4917-ab40-c35b8334e0f7.png)
+
+Ngoài ra cách giải mã, bạn chỉ cần nhập ngược lại thôi :sunglasses:
+
