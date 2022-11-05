@@ -11,7 +11,17 @@
 + Spring Boot
 + VSCode (cho dễ dùng :sunglasses:)
 
-## Cách chạy
+## Cách chạy: Có 2 cách
+
+### Cách 1 (Đơn giản :innocent:): Chạy file `.jar`
+
+Nếu máy bạn cài java rồi thì lấy file `salsa20-0.0.1-SNAPSHOT.jar` có ngay trên github này. Rồi nhập lệnh này trên terminal của máy tinh
+
+```
+java -jar salsa20-0.0.1-SNAPSHOT.jar
+```
+
+### Cách 2 (Khó hơn chút :sweat_smile:): Build source code
 
 Bước đầu tiên là git clone project này về
 ```
