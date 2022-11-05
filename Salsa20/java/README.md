@@ -20,6 +20,10 @@ Nếu máy bạn cài java rồi thì lấy file `salsa20-0.0.1-SNAPSHOT.jar` c�
 java -jar salsa20-0.0.1-SNAPSHOT.jar
 ```
 
+Nếu ra kết quả build xong Spring như ảnh thì ok :satisfied:
+
+![image](https://user-images.githubusercontent.com/95759699/200101398-935685e7-b093-456f-8aa7-8228143c3250.png)
+
 ### Cách 2 (Khó hơn chút :sweat_smile:): Build source code
 
 Bước đầu tiên là git clone project này về
