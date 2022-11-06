@@ -13,18 +13,24 @@
   <a>Plaintext: </a><br>
   <input type="text" name="plaintext">
   <input type="checkbox" name="p_hex" value="true">
-  <label for="p_hex"> Dạng hexa</label><br>
+  <label for="p_hex"> Dạng hexa</label>
+  <input type="checkbox" name="p_uni" value="true">
+  <label for="p_uni"> Unicode</label><br>
 
   <a>Nonce. Yêu cầu 8 byte: </a><br>
   <a>(Một giá trị chỉ sử dụng duy nhất 1 một lần cho một lần mã hóa)</a><br>
   <input type="text" name="nonce">
   <input type="checkbox" name="n_hex" value="true">
-  <label for="n_hex"> Dạng hexa</label><br>
+  <label for="n_hex"> Dạng hexa</label>
+  <input type="checkbox" name="n_uni" value="true">
+  <label for="n_uni"> Unicode</label><br>
 
   <a>Secret key. Yêu cầu 16 hoặc 32 byte: </a><br>
   <input type="text" name="key">
   <input type="checkbox" name="k_hex" value="true">
-  <label for="k_hex"> Dạng hexa</label><br>
+  <label for="k_hex"> Dạng hexa</label>
+  <input type="checkbox" name="k_uni" value="true">
+  <label for="k_uni"> Unicode</label><br>
 
   <button type="submit">Submit</button>
 </form>
