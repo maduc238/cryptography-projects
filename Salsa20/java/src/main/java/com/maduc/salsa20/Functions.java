@@ -136,7 +136,7 @@ public class Functions {
      * Hàm Salsa20 expansion
      * @param n 16 phần tử 1 byte đầu vào
      * @param k0 16 phần tử 1 byte k0
-     * @return Salsa20 hash của: tau0, k0, tau1, n, tau2, k0, tau3
+     * @return Salsa20 hash của: <i>tau0</i>, <i>k0</i>, <i>tau1</i>, <i>n</i>, <i>tau2</i>, <i>k0</i>, <i>tau3</i>
      */
     public static int[] Salsa20(int[] n, int[] k0) {
         int[] input = new int[64];
@@ -161,7 +161,7 @@ public class Functions {
      * @param n 16 phần tử 1 byte đầu vào
      * @param k0 16 phần tử 1 byte k0
      * @param k1 16 phần tử 1 byte k1
-     * @return Salsa20 hash của: sigma0, k0, sigma1, n, sigma2, k1, sigma3
+     * @return Salsa20 hash của: <i>sigma0, <i>k0</i>, <i>sigma1</i>, <i>n</i>, <i>sigma2</i>, <i>k1</i>, <i>sigma3</i>
      */
     public static int[] Salsa20(int[] n, int[] k0, int[] k1) {
         int[] input = new int[64];
@@ -182,10 +182,10 @@ public class Functions {
     }
 
     /**
-     * Chuyển đổi dạng chuỗi chữ String thành mảng `len` phần tử 
+     * Chuyển đổi dạng chuỗi chữ {@code String} thành mảng <i>len</i> phần tử 
      * số nguyên kích thước 1 byte
-     * @param a String đầu vào
-     * @return mảng int có chiều dài bằng String
+     * @param a {@code String} đầu vào
+     * @return mảng {@code int} có chiều dài bằng {@code String}
      */
     public static int[] convertToInt(String a) {
         int[] result = new int[a.length()];
@@ -204,6 +204,7 @@ public class Functions {
     public static int[] make_n(int[] nonce, int c) {
         int[] result = new int[16];
         for(int i=0; i<8; i++) {
+
             result[i] = nonce[i];
             result[i+8] = c%256;
             c /= 256;
@@ -212,31 +213,47 @@ public class Functions {
     }
 
     /**
-     * Chuyển dạng văn bản thông thường thành dạng Hexa
-     * @param text văn bản thông thường, tiếng Việt hay tiếng Anh cũng được :)
+     * Chuyển dạng văn bản thông thường (ASCII) thành dạng Hexa
+     * @param text văn bản thông thường, tiếng Việt hay tiếng Anh cũng được nhưng nên là tiếng Anh :)
+     * @param unicode văn bản input dạng Unicode hay không
      * @return String dạng hexa
      */
-    public static String convertToHex(String text) {
+    public static String convertToHex(String text, Boolean unicode) {
         StringBuffer sb = new StringBuffer("");
-        for(int i=0; i<text.length(); i++) {
-            sb.append( String.format("%02x", (int)text.charAt(i)));
+        if (unicode) {
+            for(int i=0; i<text.length(); i++) {
+                sb.append( String.format("%04x", (int)text.charAt(i)));
+            }
+        } else {
+            for(int i=0; i<text.length(); i++) {
+                sb.append( String.format("%02x", (int)text.charAt(i)));
+            }
         }
         String result = sb.toString();
         return result;
     }
 
     /**
-     * Chuyển dạng String hexa sang văn bản thông thường
-     * @param hexa String dạng hexa
+     * Chuyển dạng {@code String} hexa sang văn bản thông thường (ASCII)
+     * @param hexa {@code String} dạng hexa
+     * @param unicode văn bản output dạng Unicode hay không?
      * @return văn bản thông thường
      */
-    public static String convertToText(String hexa) {
+    public static String convertToText(String hexa, Boolean unicode) {
         StringBuffer sb = new StringBuffer("");
-        for(int i=0; i<hexa.length(); i+=2) {
-            String s = hexa.substring(i, (i + 2));
-            int decimal = Integer.parseInt(s, 16);
-            sb.append((char)decimal);
-        }       
+        if (unicode) {
+            for(int i=0; i<hexa.length(); i+=4) {
+                String s = hexa.substring(i, (i + 4));
+                int decimal = Integer.parseInt(s, 16);
+                sb.append((char)decimal);
+            }
+        } else {
+            for(int i=0; i<hexa.length(); i+=2) {
+                String s = hexa.substring(i, (i + 2));
+                int decimal = Integer.parseInt(s, 16);
+                sb.append((char)decimal);
+            }
+        }
         String result = sb.toString();
         return result;
     }
