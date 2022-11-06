@@ -14,7 +14,7 @@
 ## Cách chạy
 ### Cách 1 (Đơn giản :innocent:): Chạy file `.jar`
 
-Nếu máy bạn cài java rồi thì lấy file `salsa20-0.0.1-SNAPSHOT.jar` có ngay trên github này. Rồi nhập lệnh này trên terminal của máy tinh
+Nếu máy bạn cài java rồi thì lấy file `salsa20-0.0.1-SNAPSHOT.jar` có ngay trên github này (ngoài ra sẽ còn có phiên bản mới hơn). Rồi nhập lệnh này trên terminal của máy tính
 
 ```
 java -jar salsa20-0.0.1-SNAPSHOT.jar
@@ -62,3 +62,11 @@ Ngoài ra cách giải mã, bạn chỉ cần nhập ngược lại thôi :sungl
 
 ![image](https://user-images.githubusercontent.com/95759699/200100654-a4e6f295-15fe-4cea-9cc4-9217e42fa9cf.png)
 
+## Cấu hình
+
+Tại đường dẫn tới file `salsa20\src\main\resources\application.properties`, bạn có thể cấu hình thông số ip address và port khi bật ứng dụng:
+
+```
+server.address = 127.0.0.1
+server.port = 8080
+```
