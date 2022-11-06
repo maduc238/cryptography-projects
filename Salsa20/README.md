@@ -235,4 +235,4 @@ Khi $c[i] = m[i] ⊕ Salsa20_k(v, \bar{int(i/64)})[i mod 64]$
 
 ![image](https://user-images.githubusercontent.com/95759699/200104685-63bace58-3628-4240-9374-ad7cc15092fa.png)
 
-Thế là hết :sob:
+Thế là hết :smiley:
