@@ -1,6 +1,6 @@
 # Operations
 
-Specifically, the Salsa20 hash function is a long chain of three simple operations: 32-bit addition (breaking linearity over Z=2), 32-bit xor (breaking linearity over Z=232), and constant-distance 32-bit rotation (diffusing changes from high bits to low bits).
+Specifically, the Salsa20 hash function is a long chain of three simple operations: 32-bit addition (breaking linearity over Z/2), 32-bit xor (breaking linearity over Z/2^32), and constant-distance 32-bit rotation (diffusing changes from high bits to low bits).
 
 The argument for complicated operations is that they provide a remarkable amount of mixing at reasonable speed on many CPUs, and thus achieve any desired security level more quickly than simple operations on those CPUs.
 
