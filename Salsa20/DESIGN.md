@@ -1,4 +1,4 @@
-# Operations:
+# Operations
 
 Specifically, the Salsa20 hash function is a long chain of three simple operations: 32-bit addition (breaking linearity over Z=2), 32-bit xor (breaking linearity over Z=232), and constant-distance 32-bit rotation (diffusing changes from high bits to low bits).
 
