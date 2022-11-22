@@ -1,6 +1,6 @@
 # Chạy bộ kiểm thử cho chuỗi ngẫu nhiên và giả ngẫu nhiên
 
-Đường link tới file kiểm thử: [NIST Statistical Test Suite](https://csrc.nist.gov/projects/random-bit-generation/documentation-and-software)
+Đường link tới công cụ kiểm thử: [NIST Statistical Test Suite](https://csrc.nist.gov/projects/random-bit-generation/documentation-and-software)
 
 ## Hướng dẫn cài
 
