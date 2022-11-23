@@ -27,7 +27,7 @@ Ban đầu nhập chiều dài bit
 ```
 ./assess 100000
 ```
-Màn hình lúc này sẽ hiển thị
+Màn hình lúc này sẽ hiển thị:
 ```
            G E N E R A T O R    S E L E C T I O N 
            ______________________________________
