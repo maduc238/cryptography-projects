@@ -100,4 +100,6 @@ $$
 Để dễ hình dung hơn thì hàm **MixColumns()** thực hiện biến đổi với từng cột từ việc nhân ma trận trước đó như sau:
 ![image](https://user-images.githubusercontent.com/95759699/203778337-b7179f17-9433-4a31-b1a6-2f53afcd61fb.png)
 
+## Key Expansion
 
+...
