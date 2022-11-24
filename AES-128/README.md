@@ -46,7 +46,7 @@ Trong đó [$w_i$] là key schedule word, và $round$ là một giá trị nằm
 
 ![image](https://user-images.githubusercontent.com/95759699/203766667-389dc5f8-db2b-44ce-a526-8d1a99b441b7.png)
 
-Đơn giản hơn thì thực chất chỉ là phép **XOR 16 word với 16 word thôi**. Ma trận bên phải sẽ lần lượt XOR với ma trận giữa theo từng cột sẽ ra được ma trận bên trái. Vì vậy đầu ra cũng chỉ là 16 word.
+Đơn giản hơn thì thực chất chỉ là phép **XOR 16 word với 16 word thôi**. Ma trận bên phải sẽ lần lượt XOR với ma trận giữa theo từng cột sẽ ra được ma trận bên trái. Vì vậy đầu ra cũng chỉ là 16 word. Hàm này thường được sử dụng với **Key** và các **Key Expansion**
 
 ### 2.2. SubBytes()
 Đây là hàm biến đổi, nó sẽ thay thế từng byte của State bằng cách sử dụng S-box. Hiểu đơn giản S-box là một bảng tra cứu, từ đầu vào ta tra từ hàng và cột sẽ ra kết quả tương ứng. Được cái S-box này không thể bị đảo được, và xây dựng bằng cách kết hợp hai phép biến đổi:
@@ -164,7 +164,7 @@ def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
 ```
 Để dễ hình dung hơn có thể tham khảo hình bên dưới
 
-![image](https://user-images.githubusercontent.com/95759699/203819987-0cb514ec-e6bb-4b29-b3b1-feb558aae1d1.png)
+![image](https://user-images.githubusercontent.com/95759699/203821765-339ec186-0e95-4e84-b540-a90c98022822.png)
 ## 4. Các hàm sử dụng trong giải mã
 
 ... Toàn các hàm ngược :v Đang lười viết tiếp
