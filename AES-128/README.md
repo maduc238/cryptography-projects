@@ -162,7 +162,9 @@ def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
   
   out = state
 ```
+Để dễ hình dung hơn có thể tham khảo hình bên dưới
 
+![image](https://user-images.githubusercontent.com/95759699/203819987-0cb514ec-e6bb-4b29-b3b1-feb558aae1d1.png)
 ## Các hàm sử dụng trong giải mã
 
 ... Toàn các hàm ngược :v
