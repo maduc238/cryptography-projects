@@ -56,7 +56,8 @@ Trong đó [$w_i$] là key schedule word, và $round$ là một giá trị nằm
   + $b_i'=b_i⊕b_{(i+4)mod8}⊕b_{(i+5)mod8}⊕b_{(i+6)mod8}⊕b_{(i+7)mod8}⊕c_i$
 
 Dưới dạng ma trận, biến đổi affine của S-box có thể được biểu diễn:
-![image](https://user-images.githubusercontent.com/95759699/203770568-19f2703e-7b4f-4f48-ab22-ba549cbb6ff2.png)
+
+![image](https://user-images.githubusercontent.com/95759699/203814451-1e9466e5-f552-494c-ab0b-f0df7d29a1b4.png)
 
 Và cuối cùng sau phép biến đổi toán học, S-box cụ thể sẽ có những giá trị như sau:
 ![image](https://user-images.githubusercontent.com/95759699/203770811-505b5f22-853a-4a82-9055-e247a00853e1.png)
@@ -128,6 +129,7 @@ def KeyExpansion(byte key[4*Nk], word w[Nb*(Nr+1)], Nk):
   i = 0
   while (i < Nk):
     w[i] = word(key[4*i], key[4*i+1], key[4*i+2], key[4*i+3])
+    # Nghĩa là w tại round đầu tiên chính là key
     i = i+1
   
   i = Nk
