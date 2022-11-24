@@ -1,12 +1,12 @@
 # AES-128
 References: [Announcing the ADVANCED ENCRYPTION STANDARD (AES)](https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf)
-## Giới thiệu chung
+## 1. Giới thiệu chung
 Chuẩn mã hóa AES - ADVANCED ENCRYPTION STANDARD là một loại mã khối để xử lý dữ liệu đầu vào **128 bit**, cùng với khóa **key** có các kiểu độ dài là **128**, **192**, và **256 bit** tương ứng các chuẩn của mã hóa này: ***“AES-128”***, ***“AES-192”***, và ***“AES-256”***
 
 Mã khối này được thực hiện thông qua 5 hàm chính là **AddRoundKey()**, **SubBytes()**, **ShiftRows()**, **MixColumns()** và **KeyExpansion()** sẽ được nói chi tiết trong các phần sau.
 
 Còn các định nghĩa về toán học, những cái đã đề cập trong mã hóa [Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20) mình sẽ bỏ qua, còn giờ chỉ nói một vài ký hiệu mới thôi :stuck_out_tongue_winking_eye:
-### Phép nhân với x
+### 1.1. Phép nhân với x
 Nhân đa thức nhị phân với đa thức $x$:
 
 $b_7 x^8 + b_6 x^7 + b_5 x^6 + b_4 x^5 + b_3 x^4 + b_2 x^3 + b_1 x^2 + b_0 x$
@@ -21,7 +21,7 @@ Ví dụ phép tính {57} • {13}. Để dễ tính toán hơn thì khai triể
 
 Do đó: {57} • {13} = {57} • ({01} ⊕ {02} ⊕ {10}) = {57} ⊕ {ae} ⊕ {07} = {fe}
 
-### Một số ký hiệu
+### 1.2. Một số ký hiệu
 - **Nk**: Số word trong key
 - **Nr**: Số vòng (round) thực hiện
 - **Nb**: Số cột byte khi xét trong **State**, với chuẩn này thì Nb=4
@@ -36,8 +36,8 @@ Do đó: {57} • {13} = {57} • ({01} ⊕ {02} ⊕ {10}) = {57} ⊕ {ae} ⊕ {
 
 ![image](https://user-images.githubusercontent.com/95759699/203812172-3c47710b-678a-441f-9470-f248a46db03c.png)
 
-## Các hàm sử dụng trong mã hóa
-### AddRoundKey()
+## 2. Các hàm sử dụng trong mã hóa
+### 2.1. AddRoundKey()
 Trong việc sử dụng hàm biến đổi này, một Round Key được thêm vào State bởi phép cộng XOR theo bit. Mỗi Round Key bao gồm Nb word trong key schedule. Mỗi Nb word đó được thêm vào cột của State sao cho:
 
 $[s_{0,c}', s_{1,c}', s_{2,c}', s_{3,c}']=[s_{0,c}, s_{1,c}, s_{2,c}, s_{3,c}]⊕[w_{round*Nb+c}]$
@@ -48,7 +48,7 @@ Trong đó [$w_i$] là key schedule word, và $round$ là một giá trị nằm
 
 Đơn giản hơn thì thực chất chỉ là phép **XOR 16 word với 16 word thôi**. Ma trận bên phải sẽ lần lượt XOR với ma trận giữa theo từng cột sẽ ra được ma trận bên trái. Vì vậy đầu ra cũng chỉ là 16 word.
 
-### SubBytes()
+### 2.2. SubBytes()
 Đây là hàm biến đổi, nó sẽ thay thế từng byte của State bằng cách sử dụng S-box. Hiểu đơn giản S-box là một bảng tra cứu, từ đầu vào ta tra từ hàng và cột sẽ ra kết quả tương ứng. Được cái S-box này không thể bị đảo được, và xây dựng bằng cách kết hợp hai phép biến đổi:
 - Lấy nghịch đảo bit đó trong trường **GF(28)** (ai không nhớ về field thì học lại mở đầu chương này :v); giá trị {00} thì ánh xạ tới chính nó
 - Áp dụng phép biến đổi affine (trên GF(2)):
@@ -67,7 +67,7 @@ Giải thích cách dùng: Nếu một byte dạng hex là $s_{1,1}$={5,3} thì 
 Vậy tựu chung lại, hàm **SubBytes()** chỉ đơn giản là phép biến đối byte từ S-box thôi!
 ![image](https://user-images.githubusercontent.com/95759699/203771597-98ef8fc1-eece-4674-90f1-7ae6d9570484.png)
 
-### ShiftRows()
+### 2.3. ShiftRows()
 Là hàm biến đổi, trong đó mỗi hàng tương ứng với 4 byte sẽ bị quay trái theo byte tương ứng với quy luật tăng dần theo index của hàng. Biểu diễn quá trình này sẽ được thể hiện như sau:
 
 $s_{r,c}'=s_{r,c+shift(r,Nb)modNb}$ với 0 < r < 4 và 0 ≤ c ≤ Nb
@@ -79,7 +79,7 @@ Cho dễ hiểu hơn về hàm **ShiftRows()** thì hình sau sẽ là input và
 
 Tại ma trận bên trái, dãy 4 byte trên hàng đầu tiên vẫn giữ nguyên (vì index của hàng bằng 0), rồi hàng thứ hai thì bị xoay trái 1 byte, tương ứng phần bôi đen bị chuyển sang bên phải, rồi hàng thứ ba bị xoay 2 byte, hàng thứ tư bị xoay 3 byte.
 
-### MixColumns()
+### 2.4. MixColumns()
 Hàm biến đổi này hoạt động trên từng cột State, coi mỗi cột là một đa thức bậc bốn. Việc xây dựng này dựa trên việc coi các cột là đa thức trên GF(28) và nhân modulo $x^4+1$ với một đa thức $a(x)=${03} $x^3+$ {01} $x^2+$ {01} $x+$ {02}
 
 Với từng cột trên ma trận 16 byte ta có phép tính ra kết quả của hàm **MixColumns()** bằng việc nhân ma trận:
@@ -111,7 +111,7 @@ $$
 Để dễ hình dung hơn thì hàm **MixColumns()** thực hiện biến đổi với từng cột từ việc nhân ma trận trước đó như sau:
 ![image](https://user-images.githubusercontent.com/95759699/203778337-b7179f17-9433-4a31-b1a6-2f53afcd61fb.png)
 
-### Key Expansion
+### 2.5. Key Expansion
 Nghe tên là biết chỉ áp dụng biến đổi cho khóa K, vì vậy đầu vào của hàm này luôn là khóa K (trường trường hợp AES-128). Mục địch chính là mở rộng cái khóa này và sẽ kết hợp với hàm **AddRoundKey()** (chi tiết cụ thể sẽ nói sau). **Key Expansion** tạo ra tổng cộng **Nb**(**Nr** + 1) word: Thiếu toán yêu cầu một bộ khởi tạo Nb word, mỗi round Nr yêu cầu Nb word dữ liẹu key. Kết quả của key schedule bao gồm một mảng gồm các word, ký hiệu là [ $w_i$ ], với i trong khoảng 0 ≤ i ≤ **Nb**(**Nr** + 1). Trong thuật toán bên dưới sẽ được lưu trong mảng `w[i]`
 
 **KeyExpansion()** yêu cầu một số hàm nhỏ như **RotWord()**, **SubWord()**, và phần tử mảng con **Rcon[i]**
@@ -143,7 +143,7 @@ def KeyExpansion(byte key[4*Nk], word w[Nb*(Nr+1)], Nk):
     i = i + 1
 ```
 Kết quả thu được `w[Nb*(Nr+1)]` để phục vụ cho việc mã hóa
-## Mã hóa
+## 3. Mã hóa
 ```Python
 def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
   byte state[4,Nb]
@@ -165,10 +165,10 @@ def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
 Để dễ hình dung hơn có thể tham khảo hình bên dưới
 
 ![image](https://user-images.githubusercontent.com/95759699/203819987-0cb514ec-e6bb-4b29-b3b1-feb558aae1d1.png)
-## Các hàm sử dụng trong giải mã
+## 4. Các hàm sử dụng trong giải mã
 
-... Toàn các hàm ngược :v
+... Toàn các hàm ngược :v Đang lười viết tiếp
 
-## Giải mã
+## 5. Giải mã
 
 ...
