@@ -8,7 +8,20 @@ Chuẩn mã hóa AES - ADVANCED ENCRYPTION STANDARD là một loại mã khối 
 
 Mã khối này được thực hiện thông qua 5 hàm chính là AddRoundKey, SubBytes, ShiftRows, MixColumns và KeyExpansion sẽ được nói chi tiết trong các phần sau.
 
-Còn các định nghĩa về toán học mình sẽ tạm bỏ qua vì đã nói trong thuật toán [Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20) rồi :stuck_out_tongue_winking_eye:
+Còn các định nghĩa về toán học, những cái đã đề cập trong mã hóa [Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20) mình sẽ bỏ qua, còn giờ chỉ nói một vài ký hiệu mới thôi :stuck_out_tongue_winking_eye:
+### Phép nhân với x
+Nhân đa thức nhị phân với đa thức $x$:
+
+$b_7 x^8 + b_6 x^7 + b_5 x^6 + b_4 x^5 + b_3 x^4 + b_2 x^3 + b_1 x^2 + b_0 x$
+
+Với $b_i$ là bit vị trí thứ $i$. Phép nhân đa thức này đã học trong môn Cơ sở truyền tin. Và việc nhân này áp dụng cho cả 2 byte
+
+Ví dụ phép tính {57} • {13}. Để dễ tính toán hơn thì khai triển ra theo cách này:
+- {57} • {02} = {ae}
+- {57} • {04} = {47}
+- {57} • {08} = {8e}
+- {57} • {10} = {07}
+Do đó: {57} • {13} = {57} • ({01} ⊕ {02} ⊕ {10}) = {57} ⊕ {ae} ⊕ {07} = {fe}
 
 ## Các hàm sử dụng
 
@@ -30,7 +43,7 @@ $[s_{0,c}', s_{1,c}', s_{2,c}', s_{3,c}']=[s_{0,c}, s_{1,c}, s_{2,c}, s_{3,c}]�
   + Với 0 ≤ i < 8, $b_i$ là bit thứ i của một byte, $c_i$ là bit thứ i của byte c với giá trị {63} hay {01100011}
   + $b_i'=b_i⊕b_{(i+4)mod8}⊕b_{(i+5)mod8}⊕b_{(i+6)mod8}⊕b_{(i+7)mod8}⊕c_i$
 
-Dưới dạng ma trận, biến đổi afine của S-box có thể được biểu diễn:
+Dưới dạng ma trận, biến đổi affine của S-box có thể được biểu diễn:
 ![image](https://user-images.githubusercontent.com/95759699/203770568-19f2703e-7b4f-4f48-ab22-ba549cbb6ff2.png)
 
 Và cuối cùng sau phép biến đổi toán học, S-box cụ thể sẽ có những giá trị như sau:
@@ -55,4 +68,35 @@ Tại ma trận bên trái, dãy 4 byte trên hàng đầu tiên vẫn giữ ngu
 
 ## MixColumns()
 
-...
+Hàm biến đổi này hoạt động trên từng cột State, coi mỗi cột là một đa thức bậc bốn. Việc xây dựng này dựa trên việc coi các cột là đa thức trên GF(28) và nhân modulo $x^4+1$ với một đa thức $a(x)=${03} $x^3+$ {01} $x^2+$ {01} $x+$ {02}
+
+Với từng cột trên ma trận 16 byte ta có phép tính ra kết quả của hàm **MixColumns()** bằng việc nhân ma trận:
+
+$$
+\begin{pmatrix}
+s_{0,c}' \\
+s_{1,c}' \\
+s_{2,c}' \\
+s_{3,c}'
+\end{pmatrix}
+\=
+\begin{pmatrix}
+02 & 03 & 01 & 01 \\
+01 & 02 & 03 & 01 \\
+01 & 01 & 02 & 03\\
+03 & 01 & 01 & 02 \\
+\end{pmatrix}
+\begin{pmatrix}
+s_{0,c} \\
+s_{1,c} \\
+s_{2,c} \\
+s_{3,c}
+\end{pmatrix}
+$$
+
+Áp dụng tính chất giao hoán của field ( $a(x)•(b(x)+c(x))=a(x)•b(x)+a(x)•c(x)$ ) để tính thôi
+
+Để dễ hình dung hơn thì hàm **MixColumns()** thực hiện biến đổi với từng cột từ việc nhân ma trận trước đó như sau:
+![image](https://user-images.githubusercontent.com/95759699/203778337-b7179f17-9433-4a31-b1a6-2f53afcd61fb.png)
+
+
