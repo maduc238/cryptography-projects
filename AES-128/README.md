@@ -22,9 +22,21 @@ Ví dụ phép tính {57} • {13}. Để dễ tính toán hơn thì khai triể
 Do đó: {57} • {13} = {57} • ({01} ⊕ {02} ⊕ {10}) = {57} ⊕ {ae} ⊕ {07} = {fe}
 
 ### Một số ký hiệu
-...
+- **Nk**: Số word trong key
+- **Nr**: Số vòng (round) thực hiện
+- **Nb**: Số cột byte khi xét trong **State**, với chuẩn này thì Nb=4
 
-## Các hàm sử dụng
+| # | Nk | Nb | Nr |
+| --- | --- | --- | --- |
+| **AES-128** | 4 | 4 | 10 |
+| **AES-192** | 6 | 4 | 12 |
+| **AES-256** | 8 | 4 | 14 |
+
+- **State**: Dữ liệu trung gian được lưu dưới dạng ma trận các byte, có bốn hàng và **Nb** cột
+
+![image](https://user-images.githubusercontent.com/95759699/203812172-3c47710b-678a-441f-9470-f248a46db03c.png)
+
+## Các hàm sử dụng trong mã hóa
 ### AddRoundKey()
 Trong việc sử dụng hàm biến đổi này, một Round Key được thêm vào State bởi phép cộng XOR theo bit. Mỗi Round Key bao gồm Nb word trong key schedule. Mỗi Nb word đó được thêm vào cột của State sao cho:
 
@@ -54,7 +66,7 @@ Giải thích cách dùng: Nếu một byte dạng hex là $s_{1,1}$={5,3} thì 
 Vậy tựu chung lại, hàm **SubBytes()** chỉ đơn giản là phép biến đối byte từ S-box thôi!
 ![image](https://user-images.githubusercontent.com/95759699/203771597-98ef8fc1-eece-4674-90f1-7ae6d9570484.png)
 
-## ShiftRows()
+### ShiftRows()
 Là hàm biến đổi, trong đó mỗi hàng tương ứng với 4 byte sẽ bị quay trái theo byte tương ứng với quy luật tăng dần theo index của hàng. Biểu diễn quá trình này sẽ được thể hiện như sau:
 
 $s_{r,c}'=s_{r,c+shift(r,Nb)modNb}$ với 0 < r < 4 và 0 ≤ c ≤ Nb
@@ -66,7 +78,7 @@ Cho dễ hiểu hơn về hàm **ShiftRows()** thì hình sau sẽ là input và
 
 Tại ma trận bên trái, dãy 4 byte trên hàng đầu tiên vẫn giữ nguyên (vì index của hàng bằng 0), rồi hàng thứ hai thì bị xoay trái 1 byte, tương ứng phần bôi đen bị chuyển sang bên phải, rồi hàng thứ ba bị xoay 2 byte, hàng thứ tư bị xoay 3 byte.
 
-## MixColumns()
+### MixColumns()
 Hàm biến đổi này hoạt động trên từng cột State, coi mỗi cột là một đa thức bậc bốn. Việc xây dựng này dựa trên việc coi các cột là đa thức trên GF(28) và nhân modulo $x^4+1$ với một đa thức $a(x)=${03} $x^3+$ {01} $x^2+$ {01} $x+$ {02}
 
 Với từng cột trên ma trận 16 byte ta có phép tính ra kết quả của hàm **MixColumns()** bằng việc nhân ma trận:
@@ -98,14 +110,61 @@ $$
 Để dễ hình dung hơn thì hàm **MixColumns()** thực hiện biến đổi với từng cột từ việc nhân ma trận trước đó như sau:
 ![image](https://user-images.githubusercontent.com/95759699/203778337-b7179f17-9433-4a31-b1a6-2f53afcd61fb.png)
 
-## Key Expansion
-Nghe tên là biết chỉ áp dụng biến đổi cho khóa K, vì vậy đầu vào của hàm này luôn là khóa K (trường trường hợp AES-128). Mục địch chính là mở rộng cái khóa này và sẽ kết hợp với hàm **AddRoundKey()** (chi tiết cụ thể sẽ nói sau). **Key Expansion** tạo ra tổng cộng **Nb**(**Nr** + 1) word: Thiếu toán yêu cầu một bộ khởi tạo Nb word, mỗi round Nr yêu cầu Nb word dữ liẹu key. Kết quả của key schedule bao gồm một mảng gồm các word, ký hiệu là [$w_i$], với i trong khoảng 0 ≤ i ≤ **Nb**(**Nr** + 1)
+### Key Expansion
+Nghe tên là biết chỉ áp dụng biến đổi cho khóa K, vì vậy đầu vào của hàm này luôn là khóa K (trường trường hợp AES-128). Mục địch chính là mở rộng cái khóa này và sẽ kết hợp với hàm **AddRoundKey()** (chi tiết cụ thể sẽ nói sau). **Key Expansion** tạo ra tổng cộng **Nb**(**Nr** + 1) word: Thiếu toán yêu cầu một bộ khởi tạo Nb word, mỗi round Nr yêu cầu Nb word dữ liẹu key. Kết quả của key schedule bao gồm một mảng gồm các word, ký hiệu là [ $w_i$ ], với i trong khoảng 0 ≤ i ≤ **Nb**(**Nr** + 1). Trong thuật toán bên dưới sẽ được lưu trong mảng `w[i]`
 
-**KeyExpansion()** yêu cầu một số hàm nhỏ như **RotWord()**, **SubWord()**, **Rcon()**
-### SubWord()
+**KeyExpansion()** yêu cầu một số hàm nhỏ như **RotWord()**, **SubWord()**, và phần tử mảng con **Rcon[i]**
+#### SubWord()
+Là hàm lấy một word và áp dụng S-box để tạo ra một output word.
+#### RotWord()
+Lấy input là một word dạng [ $a_0,a_1,a_2,a_3$ ], trả về kết quả một word dạng [ $a_1,a_2,a_3,a_0$ ]
+#### Rcon[i]
+Với mỗi round chứa một mảng word, **Rcon[i]** chứa các giá trị [ $x^{i-1}$, {00}, {00}, {00}], với $x^{i-1}$ là lũy thừa bậc i-1 của x (x được đặt là {02}) trong field GF(28), i bắt đầu từ 1.
+#### Chi tiết thuật toán
+Với ***AES-128***, **Nk**=4
+```Python
+def KeyExpansion(byte key[4*Nk], word w[Nb*(Nr+1)], Nk):
+  word temp
+  i = 0
+  while (i < Nk):
+    w[i] = word(key[4*i], key[4*i+1], key[4*i+2], key[4*i+3])
+    i = i+1
+  
+  i = Nk
+  while (i < Nb * (Nr+1)):
+    temp = w[i-1]
+    if (i mod Nk = 0):
+      temp = SubWord(RotWord(temp)) xor Rcon[i/Nk]
+    else if (Nk > 6 and i mod Nk = 4):
+      temp = SubWord(temp)
+    w[i] = w[i-Nk] xor temp
+    i = i + 1
+```
+Kết quả thu được `w[Nb*(Nr+1)]` để phục vụ cho việc mã hóa
+## Mã hóa
+```Python
+def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
+  byte state[4,Nb]
+  state = in
+  AddRoundKey(state, w[0, Nb-1])
+  
+  for round = 1 step 1 to Nr–1:
+    SubBytes(state)
+    ShiftRows(state)
+    MixColumns(state)
+    AddRoundKey(state, w[round*Nb, (round+1)*Nb-1])
+    
+  SubBytes(state)
+  ShiftRows(state)
+  AddRoundKey(state, w[Nr*Nb, (Nr+1)*Nb-1])
+  
+  out = state
+```
+
+## Các hàm sử dụng trong giải mã
+
+... Toàn các hàm ngược :v
+
+## Giải mã
+
 ...
-### Chi tiết thuật toán
-...
-
-
-
