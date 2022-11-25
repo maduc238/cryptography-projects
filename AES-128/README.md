@@ -229,3 +229,5 @@ EqInvCipher(byte in[4*Nb], byte out[4*Nb], word dw[Nb*(Nr+1)]):
 Lưu ý:
 - `dw` vẫn được tạo từ S-box xuôi.
 - Có nhiều cách khác nhau để giải được mã, không nhất thiết phải theo các bước này.
+
+![image](https://user-images.githubusercontent.com/95759699/203981521-a9c63237-6007-4142-823e-307cde4b8cc0.png)
