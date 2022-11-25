@@ -11,7 +11,7 @@ Nhân đa thức nhị phân với đa thức $x$:
 
 $b_7 x^8 + b_6 x^7 + b_5 x^6 + b_4 x^5 + b_3 x^4 + b_2 x^3 + b_1 x^2 + b_0 x$
 
-Với $b_i$ là bit vị trí thứ $i$. Phép nhân đa thức này đã học trong môn Cơ sở truyền tin. Và việc nhân này áp dụng cho cả 2 byte
+Với $b_i$ là bit vị trí thứ $i$. Phép nhân đa thức này đã học trong môn Cơ sở truyền tin. Và việc nhân này áp dụng cho cả 2 byte. Sau đó lấy dư với 0x11b nếu như tràn giá trị.
 
 Ví dụ phép tính {57} • {13}. Để dễ tính toán hơn thì khai triển ra theo cách này:
 - {57} • {02} = {ae}
@@ -50,7 +50,7 @@ Trong đó [ $w_i$ ] là key schedule word, và $round$ là một giá trị n�
 
 ### 2.2. SubBytes()
 Đây là hàm biến đổi, nó sẽ thay thế từng byte của State bằng cách sử dụng S-box. Hiểu đơn giản S-box là một bảng tra cứu, từ đầu vào ta tra từ hàng và cột sẽ ra kết quả tương ứng. Được cái S-box này không thể bị đảo được, và xây dựng bằng cách kết hợp hai phép biến đổi:
-- Lấy nghịch đảo bit đó trong trường **GF(28)** (ai không nhớ về field thì học lại mở đầu chương này :v); giá trị {00} thì ánh xạ tới chính nó
+- Lấy nghịch đảo bit đó trong trường **GF( $2^8$ )**; giá trị {00} thì ánh xạ tới chính nó
 - Áp dụng phép biến đổi affine (trên GF(2)):
   + Với 0 ≤ i < 8, $b_i$ là bit thứ i của một byte, $c_i$ là bit thứ i của byte c với giá trị {63} hay {01100011}
   + $b_i'=b_i⊕b_{(i+4)mod8}⊕b_{(i+5)mod8}⊕b_{(i+6)mod8}⊕b_{(i+7)mod8}⊕c_i$
@@ -120,7 +120,12 @@ Là hàm lấy một word và áp dụng S-box để tạo ra một output word.
 #### RotWord()
 Lấy input là một word dạng [ $a_0,a_1,a_2,a_3$ ], trả về kết quả một word dạng [ $a_1,a_2,a_3,a_0$ ]
 #### Rcon[i]
-Với mỗi round chứa một mảng word, **Rcon[i]** chứa các giá trị [ $x^{i-1}$, {00}, {00}, {00}], với $x^{i-1}$ là lũy thừa bậc i-1 của x (x được đặt là {02}) trong field GF(28), i bắt đầu từ 1.
+Với mỗi round chứa một mảng word, **Rcon[i]** chứa các giá trị [ $x^{i-1}$, {00}, {00}, {00}], với $x^{i-1}$ là lũy thừa bậc i-1 của x (x được đặt là {02}) trong field GF( $2^8$ ), i bắt đầu từ 1. Giá trị đầu này tạm được lưu trong mảng GC[j], vì vậy sẽ có các giá trị:
+
+| j | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RC[j] | 01 | 02 | 04 | 08 | 10 | 20 | 40 | 80 | 1b | 36 |
+
 #### Chi tiết thuật toán
 Với ***AES-128***, **Nk**=4
 ```Python
@@ -142,6 +147,8 @@ def KeyExpansion(byte key[4*Nk], word w[Nb*(Nr+1)], Nk):
     w[i] = w[i-Nk] xor temp
     i = i + 1
 ```
+![image](https://user-images.githubusercontent.com/95759699/203910066-0d900440-3e91-42b6-addf-dc3d3c1f339f.png)
+
 Kết quả thu được `w[Nb*(Nr+1)]` để phục vụ cho việc mã hóa
 ## 3. Mã hóa
 ```Python
