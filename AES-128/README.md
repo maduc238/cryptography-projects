@@ -42,11 +42,11 @@ Trong việc sử dụng hàm biến đổi này, một Round Key được thêm
 
 $[s_{0,c}', s_{1,c}', s_{2,c}', s_{3,c}']=[s_{0,c}, s_{1,c}, s_{2,c}, s_{3,c}]⊕[w_{round*Nb+c}]$
 
-Trong đó [$w_i$] là key schedule word, và $round$ là một giá trị nằm trong 0 ≤ $round$ ≤ Nr.
+Trong đó [ $w_i$ ] là key schedule word, và $round$ là một giá trị nằm trong 0 ≤ $round$ ≤ Nr.
 
 ![image](https://user-images.githubusercontent.com/95759699/203766667-389dc5f8-db2b-44ce-a526-8d1a99b441b7.png)
 
-Đơn giản hơn thì thực chất chỉ là phép **XOR 16 word với 16 word thôi**. Ma trận bên phải sẽ lần lượt XOR với ma trận giữa theo từng cột sẽ ra được ma trận bên trái. Vì vậy đầu ra cũng chỉ là 16 word. Hàm này thường được sử dụng với **Key** và các **Key Expansion**
+Đơn giản hơn thì thực chất chỉ là phép **XOR 16 byte với 16 byte**. Ma trận bên phải sẽ lần lượt XOR với ma trận giữa theo từng cột sẽ ra được ma trận bên trái. Vì vậy đầu ra cũng chỉ là 16 byte. Hàm này thường được sử dụng với **Key** và các **Key Expansion**
 
 ### 2.2. SubBytes()
 Đây là hàm biến đổi, nó sẽ thay thế từng byte của State bằng cách sử dụng S-box. Hiểu đơn giản S-box là một bảng tra cứu, từ đầu vào ta tra từ hàng và cột sẽ ra kết quả tương ứng. Được cái S-box này không thể bị đảo được, và xây dựng bằng cách kết hợp hai phép biến đổi:
