@@ -148,7 +148,7 @@ def KeyExpansion(byte key[4*Nk], word w[Nb*(Nr+1)], Nk):
 ```
 ![image](https://user-images.githubusercontent.com/95759699/203910066-0d900440-3e91-42b6-addf-dc3d3c1f339f.png)
 
-***Tóm tắt:*** Từ 16 byte của một key ban đầu, gộp các hàng thành một mảng gồm 4 word. Đầu tiên trong một round, lấy word cuối cùng nghĩa là cột ngoài cùng bên phải (4 byte cuối cùng trong key), đưa nó vào trong hàm gọi là $g$ như hình - lệnh `if` đầu tiên trong thuật toán. Trong hàm $g$ này sẽ thực hiện hàm **RotWord()** -> **SubWord()** -> cộng XOR kết quả đó với **Rcon[]** để ra một word mới gọi là w'. Từ w' này kết hợp với w0 (cột đầu tiên) để ra w4 tương ứng với hàng đầu tiên trong Key mở rộng cho round tiếp theo. Còn các cột khác trong key - lệnh `else` trong thuật toán, việc tạo ra word mới (cột mới) chỉ là lấy word vừa mới tạo trước XOR với word cùng cột với mình. Lặp lại kết quả này trong **Nr** lần.
+***Tóm tắt:*** Từ 16 byte của một key ban đầu, gộp các hàng thành một mảng gồm 4 word. Đầu tiên trong một round, lấy word cuối cùng nghĩa là cột ngoài cùng bên phải (4 byte cuối cùng trong key), đưa nó vào trong hàm gọi là $g$ như hình - lệnh `if` đầu tiên trong thuật toán. Trong hàm $g$ này sẽ thực hiện hàm **RotWord()** -> **SubWord()** -> cộng XOR kết quả đó với **Rcon[]** để ra một word mới gọi là w'. Từ w' này kết hợp với w0 (cột đầu tiên) để ra w4 tương ứng với hàng đầu tiên trong Key mở rộng cho round tiếp theo. Còn các cột khác trong key, việc tạo ra word mới (cột mới) chỉ là lấy word vừa mới tạo trước XOR với word cùng cột với mình. Lặp lại kết quả này trong **Nr** lần.
 
 Kết quả thu được `w[Nb*(Nr+1)]` để phục vụ cho việc mã hóa
 ## 3. Mã hóa
