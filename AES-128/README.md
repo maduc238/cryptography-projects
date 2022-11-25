@@ -216,13 +216,16 @@ EqInvCipher(byte in[4*Nb], byte out[4*Nb], word dw[Nb*(Nr+1)]):
   AddRoundKey(state, dw[Nr*Nb, (Nr+1)*Nb-1])
   
   for round = Nr-1 step -1 downto 1:
-    InvSubBytes(state)
     InvShiftRows(state)
-    InvMixColumns(state)
+    InvSubBytes(state)
     AddRoundKey(state, dw[round*Nb, (round+1)*Nb-1])
+    InvMixColumns(state)
     
-  InvSubBytes(state)
   InvShiftRows(state)
+  InvSubBytes(state)
   AddRoundKey(state, dw[0, Nb-1])
   out = state
 ```
+Lưu ý:
+- `dw` vẫn được tạo từ S-box xuôi.
+- Có nhiều cách khác nhau để giải được mã, không nhất thiết phải theo các bước này.
