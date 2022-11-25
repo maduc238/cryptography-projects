@@ -15,7 +15,8 @@
 #define Nb 4
 #define Nr 10
 
-const int overflow = 0x100, modulus = 0x11B;
+/* Giá trị tràn và modulo (x^8 + x^4 + x^3 + x + 1) */
+const int overflow = 0x100, modulus = 0x11b;
 /**
  * @brief Hàm nhân hai byte trong field GF(2^8)
  * 
@@ -152,11 +153,13 @@ uint8_t *KeyExpansion(uint8_t key[16], uint8_t sbox[256]) {
 }
 
 int main(int argc, char *argv[]) {
+    /* Sửa giá trị input tại đây */
     uint8_t input[16] = {0x32, 0x43, 0xf6, 0xa8, 0x88, 0x5a, 0x30, 0x8d, 0x31, 0x31, 0x98, 0xa2, 0xe0, 0x37, 0x07, 0x34};
     uint8_t key[16] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
-    uint8_t sbox[256];      /* Dùng để khởi tạo S-box */
+    
+    uint8_t sbox[256];      /* Dùng để tạo S-box */
     InitializeAESsbox(sbox);
-    uint8_t *w;
+    uint8_t *w;             /* Dùng để tạo Key Expansion */
     w = KeyExpansion(key, sbox);
 
     AddRoundKey(input, key);
