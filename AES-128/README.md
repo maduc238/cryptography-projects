@@ -174,13 +174,13 @@ def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
 
 ![image](https://user-images.githubusercontent.com/95759699/203821765-339ec186-0e95-4e84-b540-a90c98022822.png)
 ## 4. Các hàm sử dụng trong giải mã
-### InvShiftRows()
+### 4.1. InvShiftRows()
 Hàm ngược của **ShiftRows()**, cách làm là chỉ cần xoay ngược lại - xoay phải các byte theo index của hàng.
 ![image](https://user-images.githubusercontent.com/95759699/203921241-63c8a79c-d19a-41db-93dd-be8fd6e99567.png)
-### InvSubBytes()
+### 4.2. InvSubBytes()
 Hàm ngược của **SubBytes()**, nghĩa là tạo bẳng Inverse S-box trong GF( $2^8$ ) và tra kết quả. 
 ![image](https://user-images.githubusercontent.com/95759699/203921532-ddde4d54-5b48-4b39-89b9-3d4d6e3e065c.png)
-### InvMixColumns()
+### 4.3. InvMixColumns()
 Hàm ngược của **MixColumns()**, nên là nhân modulo $x^4 + 1$ nên thu được đa thức:
 $a^{-1}(x)=${0b} $x^3+$ {0d} $x^2+$ {09} $x+$ {0e}
 
