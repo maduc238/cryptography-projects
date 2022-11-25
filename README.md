@@ -6,6 +6,8 @@ Repository này sẽ chứa những dự án code môn **Kỹ thuật mật mã*
 
 [Mã dòng Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20)
 
+[Mã khối AES-128](https://github.com/maduc238/cryptography-projects/tree/main/AES-128)
+
 # Contributors
 
 Ma Việt Đức
