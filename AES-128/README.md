@@ -3,8 +3,6 @@ References: [Announcing the ADVANCED ENCRYPTION STANDARD (AES)](https://nvlpubs.
 ## 1. Giới thiệu chung
 Chuẩn mã hóa AES - ADVANCED ENCRYPTION STANDARD là một loại mã khối để xử lý dữ liệu đầu vào **128 bit**, cùng với khóa **key** có các kiểu độ dài là **128**, **192**, và **256 bit** tương ứng các chuẩn của mã hóa này: ***“AES-128”***, ***“AES-192”***, và ***“AES-256”***
 
-Mã khối này được thực hiện thông qua 5 hàm chính là **AddRoundKey()**, **SubBytes()**, **ShiftRows()**, **MixColumns()** và **KeyExpansion()** sẽ được nói chi tiết trong các phần sau.
-
 Còn các định nghĩa về toán học, những cái đã đề cập trong mã hóa [Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20) mình sẽ bỏ qua, còn giờ chỉ nói một vài ký hiệu mới thôi :stuck_out_tongue_winking_eye:
 ### 1.1. Phép nhân với x
 Nhân đa thức nhị phân với đa thức $x$:
@@ -37,6 +35,7 @@ Do đó: {57} • {13} = {57} • ({01} ⊕ {02} ⊕ {10}) = {57} ⊕ {ae} ⊕ {
 ![image](https://user-images.githubusercontent.com/95759699/203812172-3c47710b-678a-441f-9470-f248a46db03c.png)
 
 ## 2. Các hàm sử dụng trong mã hóa
+Mã khối này được thực hiện thông qua 5 hàm chính là **AddRoundKey()**, **SubBytes()**, **ShiftRows()**, **MixColumns()** và **KeyExpansion()** sẽ được nói chi tiết trong các phần sau.
 ### 2.1. AddRoundKey()
 Trong việc sử dụng hàm biến đổi này, một Round Key được thêm vào State bởi phép cộng XOR theo bit. Mỗi Round Key bao gồm Nb word trong key schedule. Mỗi Nb word đó được thêm vào cột của State sao cho:
 
@@ -80,7 +79,7 @@ Cho dễ hiểu hơn về hàm **ShiftRows()** thì hình sau sẽ là input và
 Tại ma trận bên trái, dãy 4 byte trên hàng đầu tiên vẫn giữ nguyên (vì index của hàng bằng 0), rồi hàng thứ hai thì bị xoay trái 1 byte, tương ứng phần bôi đen bị chuyển sang bên phải, rồi hàng thứ ba bị xoay 2 byte, hàng thứ tư bị xoay 3 byte.
 
 ### 2.4. MixColumns()
-Hàm biến đổi này hoạt động trên từng cột State, coi mỗi cột là một đa thức bậc bốn. Việc xây dựng này dựa trên việc coi các cột là đa thức trên GF(28) và nhân modulo $x^4+1$ với một đa thức $a(x)=${03} $x^3+$ {01} $x^2+$ {01} $x+$ {02}
+Hàm biến đổi này hoạt động trên từng cột State, coi mỗi cột là một đa thức bậc bốn. Việc xây dựng này dựa trên việc coi các cột là đa thức trên GF( $2^8$ ) và nhân modulo $x^4+1$ với một đa thức $a(x)=${03} $x^3+$ {01} $x^2+$ {01} $x+$ {02}.
 
 Với từng cột trên ma trận 16 byte ta có phép tính ra kết quả của hàm **MixColumns()** bằng việc nhân ma trận:
 
@@ -175,9 +174,55 @@ def Cipher(byte in[4*Nb], byte out[4*Nb], word w[Nb*(Nr+1)]):
 
 ![image](https://user-images.githubusercontent.com/95759699/203821765-339ec186-0e95-4e84-b540-a90c98022822.png)
 ## 4. Các hàm sử dụng trong giải mã
+### InvShiftRows()
+Hàm ngược của **ShiftRows()**, cách làm là chỉ cần xoay ngược lại - xoay phải các byte theo index của hàng.
+![image](https://user-images.githubusercontent.com/95759699/203921241-63c8a79c-d19a-41db-93dd-be8fd6e99567.png)
+### InvSubBytes()
+Hàm ngược của **SubBytes()**, nghĩa là tạo bẳng Inverse S-box trong GF( $2^8$ ) và tra kết quả. 
+![image](https://user-images.githubusercontent.com/95759699/203921532-ddde4d54-5b48-4b39-89b9-3d4d6e3e065c.png)
+### InvMixColumns()
+Hàm ngược của **MixColumns()**, nên là nhân modulo $x^4 + 1$ nên thu được đa thức:
+$a^{-1}(x)=${0b} $x^3+$ {0d} $x^2+$ {09} $x+$ {0e}
 
-... Toàn các hàm ngược :v Đang lười viết tiếp
+Viết dưới dạng ma trận:
+
+$$
+\begin{pmatrix}
+s_{0,c}' \\
+s_{1,c}' \\
+s_{2,c}' \\
+s_{3,c}'
+\end{pmatrix}
+\=
+\begin{pmatrix}
+0e & 0b & 0d & 09 \\
+09 & 0e & 0b & 0d\\
+0d & 09 & 0e & 0b \\
+0b & 0d & 09 & 0e \\
+\end{pmatrix}
+\begin{pmatrix}
+s_{0,c} \\
+s_{1,c} \\
+s_{2,c} \\
+s_{3,c}
+\end{pmatrix}
+$$
 
 ## 5. Giải mã
-
-...
+```Python
+EqInvCipher(byte in[4*Nb], byte out[4*Nb], word dw[Nb*(Nr+1)]):
+  byte state[4,Nb]
+  state = in
+  AddRoundKey(state, dw[Nr*Nb, (Nr+1)*Nb-1])
+  
+  for round = Nr-1 step -1 downto 1:
+    InvSubBytes(state)
+    InvShiftRows(state)
+    InvMixColumns(state)
+    AddRoundKey(state, dw[round*Nb, (round+1)*Nb-1])
+    
+  InvSubBytes(state)
+  InvShiftRows(state)
+  AddRoundKey(state, dw[0, Nb-1])
+  out = state
+```
