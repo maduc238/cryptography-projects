@@ -112,7 +112,7 @@ $$
 ![image](https://user-images.githubusercontent.com/95759699/203778337-b7179f17-9433-4a31-b1a6-2f53afcd61fb.png)
 
 ### 2.5. Key Expansion
-Nghe tên là biết chỉ áp dụng biến đổi cho khóa K, vì vậy đầu vào của hàm này luôn là khóa K (trường trường hợp AES-128). Mục địch chính là mở rộng cái khóa này và sẽ kết hợp với hàm **AddRoundKey()** (chi tiết cụ thể sẽ nói sau). **Key Expansion** tạo ra tổng cộng **Nb**(**Nr** + 1) word: Thiếu toán yêu cầu một bộ khởi tạo Nb word, mỗi round Nr yêu cầu Nb word dữ liẹu key. Kết quả của key schedule bao gồm một mảng gồm các word, ký hiệu là [ $w_i$ ], với i trong khoảng 0 ≤ i ≤ **Nb**(**Nr** + 1). Trong thuật toán bên dưới sẽ được lưu trong mảng `w[i]`
+Nghe tên là biết chỉ áp dụng biến đổi cho khóa **K** và mở rộng nó, vì vậy đầu vào của hàm này luôn là khóa K (trường trường hợp AES-128). Mục địch chính là mở rộng cái khóa này và sẽ kết hợp với hàm **AddRoundKey()** (chi tiết cụ thể sẽ nói sau). **Key Expansion** tạo ra tổng cộng **Nb**(**Nr** + 1) word: Thiếu toán yêu cầu một bộ khởi tạo Nb word, mỗi round Nr yêu cầu Nb word dữ liẹu key. Kết quả của key schedule bao gồm một mảng gồm các word, ký hiệu là [ $w_i$ ], với i trong khoảng 0 ≤ i ≤ **Nb**(**Nr** + 1). Trong thuật toán bên dưới sẽ được lưu trong mảng `w[i]`
 
 **KeyExpansion()** yêu cầu một số hàm nhỏ như **RotWord()**, **SubWord()**, và phần tử mảng con **Rcon[i]**
 #### SubWord()
