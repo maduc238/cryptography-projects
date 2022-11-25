@@ -1,3 +1,11 @@
+/* Copyright (C) 2022 maduc238
+ *
+ * \file Cipher.c
+ *
+ * \author Ma Duc <mavietduc@gmail.com>
+ *
+ */
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -7,29 +15,14 @@
 #define Nb 4
 #define Nr 10
 
-uint8_t *ByteToBinaryString(uint8_t byte) {
-    uint8_t mask = 1;
-    uint8_t *bits = (uint8_t *) malloc(8);
-    for (int i = 0; i < 8; i++)
-        bits[i] = (byte & (mask << i)) != 0;
-    return bits;
-}
-
-void PrintBinaryArray(uint8_t *bits) {
-    for (int i = 7; i >= 0; i--)
-        printf("%d",bits[i]);
-}
-
-uint8_t BinaryStringToByte(uint8_t* bits) {
-    uint8_t result = 0, mul = 1;
-    for (int i=0; i<8; i++) {
-        result += bits[i]*mul;
-        mul = mul << 1;
-    }
-    return result;
-}
-
 const int overflow = 0x100, modulus = 0x11B;
+/**
+ * @brief Hàm nhân hai byte trong field GF(2^8)
+ * 
+ * @param a 
+ * @param b 
+ * @return uint8_t kết quả của phép nhân
+ */
 uint8_t Multiply(int a, int b) {
     uint8_t sum = 0;
     while (b > 0) {
@@ -41,6 +34,11 @@ uint8_t Multiply(int a, int b) {
     return sum;
 }
 
+/**
+ * @brief Khởi tạo S-box xuôi
+ * 
+ * @param sbox mảng S-box lưu thông tin của bảng
+ */
 void InitializeAESsbox(uint8_t sbox[256]) {
 	uint8_t p = 1, q = 1;
 	do {
@@ -56,18 +54,37 @@ void InitializeAESsbox(uint8_t sbox[256]) {
 	sbox[0] = 0x63;
 }
 
+/**
+ * @brief Cộng XOR hai mảng với nhau, chủ yếu được dùng với
+ * key và key expansion 
+ * 
+ * @param data dữ liệu muốn cộng XOR vào
+ * @param w thường là key
+ */
 void AddRoundKey(uint8_t data[16], uint8_t w[16]) {
     for (int i=0; i<16; i++) {
         data[i] ^= w[i];
     }
 }
 
+/**
+ * @brief Hàm lấy kết quả từ bảng S-box
+ * 
+ * @param data dữ liệu muốn thay thế
+ * @param sbox Bảng S-box
+ */
 void SubBytes(uint8_t data[16], uint8_t sbox[256]) {
     for (int i=0; i<16; i++) {
         data[i] = sbox[data[i]];
     }
 }
 
+/**
+ * @brief Hàm biến đổi khi xoay trái các hàng theo thứ tự
+ * tăng dần của số hàng
+ * 
+ * @param data dữ liệu muốn thay đổi
+ */
 void ShiftRows(uint8_t data[16]) {
     uint8_t temp;
     temp = data[1]; data[1] = data[5]; data[5] = data[9]; data[9] = data[13]; data[13] = temp;
@@ -75,6 +92,12 @@ void ShiftRows(uint8_t data[16]) {
     temp = data[15]; data[15] = data[11]; data[11] = data[7]; data[7] = data[3]; data[3] = temp;
 }
 
+/**
+ * @brief Biến đổi từng cột của ma trận data, chi tiết hơn về ma trận
+ * này có trong tài liệu
+ * 
+ * @param data dữ liệu muốn thay đổi
+ */
 void MixColumns(uint8_t data[16]) {
     uint8_t temp[16];
     for (int i=0; i<4; i++) {
@@ -91,7 +114,14 @@ void RotWord(uint8_t data[4]) {
     uint8_t temp = data[0]; data[0] = data[1]; data[1] = data[2]; data[2] = data[3]; data[3] = temp;
 }
 
-void *KeyExpansion(uint8_t key[16], uint8_t sbox[256]) {
+/**
+ * @brief Hàm tạo Key Expansion từ một key có sẵn
+ * 
+ * @param key 
+ * @param sbox bảng S-box xuôi 
+ * @return uint8_t* con trỏ chứa toàn bộ dữ liệu Key Expansion
+ */
+uint8_t *KeyExpansion(uint8_t key[16], uint8_t sbox[256]) {
     static uint8_t w[16*(Nr+1)];
     for (int i=0; i<16; i++)
         w[i] = key[i];
@@ -121,16 +151,16 @@ void *KeyExpansion(uint8_t key[16], uint8_t sbox[256]) {
     return w;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     uint8_t input[16] = {0x32, 0x43, 0xf6, 0xa8, 0x88, 0x5a, 0x30, 0x8d, 0x31, 0x31, 0x98, 0xa2, 0xe0, 0x37, 0x07, 0x34};
     uint8_t key[16] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
-    uint8_t sbox[256];
+    uint8_t sbox[256];      /* Dùng để khởi tạo S-box */
     InitializeAESsbox(sbox);
     uint8_t *w;
     w = KeyExpansion(key, sbox);
 
     AddRoundKey(input, key);
-    for (int i=1; i<=9; i++) {
+    for (int i=1; i<=Nr-1; i++) {
         SubBytes(input, sbox);
         ShiftRows(input);
         MixColumns(input);
