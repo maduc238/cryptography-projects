@@ -10,11 +10,6 @@
 
 #include "AES128.h"
 
-#define ROTL8(x,shift) ((uint8_t) ((x) << (shift)) | ((x) >> (8 - (shift))))
-#define Nk 4
-#define Nb 4
-#define Nr 10
-
 int main(int argc, char *argv[]) {
     /* Sửa giá trị input tại đây */
     uint8_t input[16] = {0x52,0x0a,0x25,0xee,0x81,0xef,0xcf,0x2b,0x39,0x6b,0xa5,0x01,0x62,0xed,0x11,0xf8};
