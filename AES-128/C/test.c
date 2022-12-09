@@ -65,7 +65,7 @@ uint8_t *KeyExpansion(uint8_t key[16], uint8_t sbox[256]) {
             printf("Sau khi qua SubWord: Word %d = ", i+3); PrintWord(temp); printf("\n");
             for (int i=0; i<4; i++)
                 temp[i] ^= Rcon[i];
-            printf("Rcon = "); PrintWord(Rcon); printf("\n");
+            printf("Rcon[] = 2^%d 00 00 00 = ",i/4); PrintWord(Rcon); printf("\n");
             printf("Sau khi XOR voi Rcon: Word %d = ", i+3); PrintWord(temp); printf("\n");
             printf("Word %d XOR voi Word %d da bien doi de ra Word %d = ", i, i+3, i+4);
         }
@@ -79,11 +79,11 @@ uint8_t *KeyExpansion(uint8_t key[16], uint8_t sbox[256]) {
         }
         PrintWord(temp); printf("\n");
         if ((i+1) % 4 == 0) {
-                printf("Vay Key cho vong thu %d la: ", i/4+1);
+                printf("Vay Key cho vong thu %d la: || ", i/4+1);
                 for (int c = 4*(i+1); c<4*(i+5); c++) {
                     printf("%02x ", w[c]);
                 }
-                printf("\n");
+                printf("||\n");
             }
         i++;
     }
