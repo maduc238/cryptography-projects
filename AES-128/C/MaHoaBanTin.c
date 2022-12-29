@@ -14,7 +14,7 @@ void Cipher(uint8_t input[], uint8_t key[], uint8_t sbox[]) {
     printf("Plaintext:");
     printf("\nHex: ");
     for (int i=0; i<16; i++) {
-        printf("0x%02x,",input[i]);
+        printf("%02x",input[i]);
     }
     printf("\nText: ");
     for (int i=0; i<16; i++) {
@@ -47,7 +47,7 @@ void Cipher(uint8_t input[], uint8_t key[], uint8_t sbox[]) {
     printf("\nCiphertext:");
     printf("\nHex: ");
     for (int i=0; i<16; i++) {
-        printf("0x%02x,",input[i]);
+        printf("%02x",input[i]);
     }
     printf("\nText: ");
     for (int i=0; i<16; i++) {
