@@ -58,7 +58,7 @@ void Cipher(uint8_t input[], uint8_t key[], uint8_t sbox[]) {
 }
 
 int main(int argc, char *argv[]) {
-    uint8_t key[] = "xin chao cac ban";
+    uint8_t key[] = {0xDE,0x8D,0xC9,0x1B,0xC4,0xD9,0x05,0x20,0xB4,0x66,0x25,0x2A,0xF0,0x22,0x24,0xB6};
 
 	FILE *fp;
    	char buff[16];
@@ -70,8 +70,12 @@ int main(int argc, char *argv[]) {
 
 	while(fgets(buff, 17, (FILE*)fp) != NULL) {
 		uint8_t plaintext[16];
-		for (int i=0; i<16; i++)
+		for (int i=0; i<16; i++) {
 			plaintext[i] = (uint8_t)buff[i];
+		}
 		Cipher(buff, key, sbox);
+		for (int i=0; i<16; i++) {
+			buff[i] = 0x00;
+		}
 	}
 }
