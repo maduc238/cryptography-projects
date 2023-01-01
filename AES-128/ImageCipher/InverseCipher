@@ -47,11 +47,15 @@ SHAPE0 = a1.shape[0]
 SHAPE1 = a1.shape[1]
 SHAPE2 = a1.shape[2]
 a1 = a1.reshape(a1.size)
-with open ("data/temp.data", "r+") as f:
+with open ("data/picture.data", "r+") as f:
     for i in a1:
         f.write(f'{i:02x}')
 
-os.system("gcc GiaiMa.c -o temp && ./temp")
+if MODE == "ecb":
+    os.system("gcc GiaiMa.c -o temp && ./temp e")
+elif MODE == "cbc":
+    os.system("gcc GiaiMa.c -o temp && ./temp c")
+
 print("Decrypting ...")
 
 a2 = []
