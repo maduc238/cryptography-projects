@@ -23,16 +23,23 @@ int main(int argc, char *argv[]) {
     InitializeAESsbox(sbox);
     uint8_t *w;             /* Dùng để tạo Key Expansion */
     w = KeyExpansion(key, sbox);
+    uint8_t plaintext[16];
+    for (int i=0; i<16; i++)
+        plaintext[i] = 0x00;
 
     while(fgets(buff, 33, (FILE*)fp) != NULL) {
         sbox[0] = 0x63;
         for (int j=0; j<16; j++) {
             key_temp[j] = w[j];
         }
-		uint8_t plaintext[16];
-		for (int i=0; i<16; i++) {
-			plaintext[i] = (uint8_t) (toInt(buff[2*i])*16 + toInt(buff[2*i+1]));
-		}
+		
+        if(argv[1][0] == 'e')          // ecb
+            for (int i=0; i<16; i++)
+                plaintext[i] = (uint8_t) (toInt(buff[2*i])*16 + toInt(buff[2*i+1]));
+        
+        else if(argv[1][0] == 'c')     // cbc
+            for (int i=0; i<16; i++)
+                plaintext[i] ^= (uint8_t) (toInt(buff[2*i])*16 + toInt(buff[2*i+1]));
 
         AddRoundKey(plaintext, key_temp);
         for (int i=1; i<=Nr-1; i++) {
@@ -54,10 +61,6 @@ int main(int argc, char *argv[]) {
         for (int i=0; i<16; i++) {
             fprintf(fp_write,"%02x",plaintext[i]);
         }
-
-		for (int i=0; i<16; i++) {
-			plaintext[i] = 0x00;
-		}
 	}
 
     fclose(fp);
