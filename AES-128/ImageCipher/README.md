@@ -1,5 +1,7 @@
 # Mã hóa ảnh bằng mã AES-128
 
+![image](https://user-images.githubusercontent.com/95759699/210175373-9f5337e1-31e1-4fae-a815-394b2ab64d97.png)
+
 Chạy bằng C (để mã hóa và giải mã AES) và Python (hiển thị hình ảnh)
 
 ## Requirements
