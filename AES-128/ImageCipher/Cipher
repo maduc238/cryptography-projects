@@ -29,7 +29,7 @@ args = parser.parse_args()
 FILE_NAME = args.image_file
 MODE = args.mode
 if MODE not in ["ecb", "cbc"]:
-    print("Undefined --mode values: Must be `ecb` or `cbc`")
+    print("Undefined `--mode` values: This must be `ecb` or `cbc`")
     exit()
 
 fig = plt.figure()
@@ -48,7 +48,10 @@ with open ("data/picture.data", "r+") as f:
     for i in a1:
         f.write(f'{i:02x}')
 
-os.system("gcc MaHoa.c -o MaHoa && ./MaHoa ")
+if MODE == "ecb":
+    os.system("gcc MaHoa.c -o temp && ./temp e")
+elif MODE == "cbc":
+    os.system("gcc MaHoa.c -o temp && ./temp c")
 print("Encrypting ...")
 
 a2 = []
