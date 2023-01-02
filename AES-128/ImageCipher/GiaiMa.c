@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     FILE *fp, *fp_write;
 
     fp = fopen("data/encrypted.data", "r");
-    fp_write = fopen("data/picture.data", "w+");
+    fp_write = fopen("data/picture.data", "w");
 
     if(argv[1][0] == 'e')          // ecb
         while(fgets(buff, 33, (FILE*)fp) != NULL) {

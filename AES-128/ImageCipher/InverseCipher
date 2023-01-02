@@ -64,7 +64,7 @@ elif MODE == "cbc":
 
 a2 = []
 with open ("data/picture.data", "r") as f:
-    print("Writing to `picture.data` ...")
+    print("Reading `picture.data` ...")
     while True:
         char = f.read(2)
         if not char:
