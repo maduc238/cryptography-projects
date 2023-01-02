@@ -22,7 +22,7 @@ parser.add_argument(
         "--key",
         type=str,
         default="0123456789abcdef0123456789abcdef",
-        help="""Key để mã hóa, dạng text. Chiều dài key phải nhỏ hơn hoặc bằng 16 chữ""")
+        help="""Key để mã hóa, dạng hex. Chiều dài key phải bằng 128 bit""")
 parser.add_argument(
         "--mode",
         type=str,
