@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import argparse
+import time
 
 parser = argparse.ArgumentParser(
         description="Decrypt AES-128 for images")
@@ -20,7 +21,7 @@ parser.add_argument(
 parser.add_argument(
         "--key",
         type=str,
-        default="xin chao cac ban",
+        default="0123456789abcdef0123456789abcdef",
         help="""Key để mã hóa, dạng text. Chiều dài key phải nhỏ hơn hoặc bằng 16 chữ""")
 parser.add_argument(
         "--mode",
@@ -32,10 +33,15 @@ args = parser.parse_args()
 
 FILE_NAME = args.image_file
 MODE = args.mode
+KEY = args.key.lower()
 if MODE not in ["ecb", "cbc"]:
     print("Undefined --mode values: Must be `ecb` or `cbc`")
     exit()
+if len(KEY) != 32:
+    print("Len of the `--key` must be 128 bit")
+    exit()
 
+time_start = time.time()
 fig = plt.figure()
 
 A = mpimg.imread(f"{FILE_NAME}")
@@ -46,21 +52,19 @@ ax.set_title('Before')
 SHAPE0 = a1.shape[0]
 SHAPE1 = a1.shape[1]
 SHAPE2 = a1.shape[2]
-a1 = a1.reshape(a1.size)
-with open ("data/picture.data", "r+") as f:
-    for i in a1:
-        f.write(f'{i:02x}')
+# a1 = a1.reshape(a1.size)
+# with open ("data/picture.data", "r+") as f:
+#     for i in a1:
+#         f.write(f'{i:02x}')
 
 if MODE == "ecb":
-    os.system("gcc GiaiMa.c -o temp && ./temp e")
+    os.system(f"gcc GiaiMa.c -o temp && ./temp e {KEY}")
 elif MODE == "cbc":
-    os.system("gcc GiaiMa.c -o temp && ./temp c")
-
-print("Decrypting ...")
+    os.system(f"gcc GiaiMa.c -o temp && ./temp c {KEY}")
 
 a2 = []
 with open ("data/picture.data", "r") as f:
-    i = 0
+    print("Writing to `picture.data` ...")
     while True:
         char = f.read(2)
         if not char:
@@ -69,9 +73,11 @@ with open ("data/picture.data", "r") as f:
 
 a2 = np.array(a2[:SHAPE0*SHAPE1*SHAPE2], dtype="uint8")
 a2 = a2.reshape((SHAPE0, SHAPE1, SHAPE2))
-print(a2.shape)
+# print(a2.shape)
 ax = fig.add_subplot(1, 2, 2)
 imgplot = plt.imshow(a2)
 mpimg.imsave(f"{args.save_file}", a2)
 ax.set_title('After')
+time_stop = time.time()
+print(f"Encrypting time: {time_stop - time_start} seconds\n")
 plt.show()
