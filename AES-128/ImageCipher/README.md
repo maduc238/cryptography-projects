@@ -6,7 +6,7 @@ Chạy bằng C (để mã hóa và giải mã AES) và Python (hiển thị hì
 
 ## Requirements
 
-Hệ điều hành: Chạy tốt trên Ubuntu, Window có thể hơi khác :)
+Hệ điều hành: Chạy tốt trên Ubuntu, Window
 
 Với C: Chỉ cần có gcc
 
