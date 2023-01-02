@@ -5,6 +5,7 @@ import matplotlib.image as mpimg
 import numpy as np
 import argparse
 import time
+import platform
 
 parser = argparse.ArgumentParser(
         description="Encrypt AES-128 for images")
@@ -17,7 +18,7 @@ parser.add_argument(
         "--key",
         type=str,
         default="0123456789abcdef0123456789abcdef",
-        help="""Key để mã hóa, dạng hex. Chiều dài key phải bằng 128 bit""")
+        help="""Key để mã hóa, dạng hex. Chiều dài key phải nhỏ hơn hoặc bằng 16 chữ""")
 parser.add_argument(
         "--mode",
         type=str,
@@ -54,10 +55,10 @@ with open ("data/picture.data", "w") as f:
     for i in a1:
         f.write(f'{i:02x}')
 
-if MODE == "ecb":
-    os.system(f"gcc MaHoa.c -o temp && ./temp e {KEY}")
-elif MODE == "cbc":
-    os.system(f"gcc MaHoa.c -o temp && ./temp c {KEY}")
+if platform.system() == 'Linux':
+    os.system(f"gcc MaHoa.c -o temp && ./temp {MODE[0]} {KEY}")
+elif platform.system() == 'Windows':
+    os.system(f"gcc MaHoa.c -o temp & temp {MODE[0]} {KEY}")
 
 a2 = []
 with open ("data/encrypted.data", "r") as f:
