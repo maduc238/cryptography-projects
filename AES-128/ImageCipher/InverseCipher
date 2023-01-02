@@ -12,7 +12,7 @@ parser.add_argument(
         "--image_file",
         type=str,
         default="data/bachkhoa_encrypted.jpg",
-        help="""File ảnh để mã hóa, phải là dạng jpg""")
+        help="""File ảnh đã được mã hóa, phải là dạng jpg""")
 parser.add_argument(
         "--save_file",
         type=str,
