@@ -5,6 +5,7 @@ import matplotlib.image as mpimg
 import numpy as np
 import argparse
 import time
+import platform
 
 parser = argparse.ArgumentParser(
         description="Decrypt AES-128 for images")
@@ -57,10 +58,10 @@ SHAPE2 = a1.shape[2]
 #     for i in a1:
 #         f.write(f'{i:02x}')
 
-if MODE == "ecb":
-    os.system(f"gcc GiaiMa.c -o temp && ./temp e {KEY}")
-elif MODE == "cbc":
-    os.system(f"gcc GiaiMa.c -o temp && ./temp c {KEY}")
+if platform.system() == 'Linux':
+    os.system(f"gcc GiaiMa.c -o temp && ./temp {MODE[0]} {KEY}")
+elif platform.system() == 'Windows':
+    os.system(f"gcc GiaiMa.c -o temp & temp {MODE[0]} {KEY}")
 
 a2 = []
 with open ("data/picture.data", "r") as f:
