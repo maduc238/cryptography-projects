@@ -28,7 +28,11 @@ Ngoài ra để xem chi tiết hướng dẫn:
 ```
 ./Cipher -h
 ```
-Để xem các lệnh khác khi nhập file ảnh, key hoặc chế độ mã hóa khác
+Để xem các lệnh khác khi nhập file ảnh, key hoặc chế độ mã hóa khác. Ví dụ như khi sử dụng ở chế độ ECB và CBC
+
+![image](https://user-images.githubusercontent.com/95759699/210236804-e71cc633-5191-43aa-9e2e-16d9f84fda46.png)
+
+![image](https://user-images.githubusercontent.com/95759699/210236838-b6b5f2f4-f2e6-49ee-82a1-cfc8028b1f8d.png)
 
 Tương tự với mã hóa là code giải mã
 ```
