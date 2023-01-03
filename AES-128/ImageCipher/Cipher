@@ -24,12 +24,18 @@ parser.add_argument(
         type=str,
         default="ecb",
         help="""Chế độ mã hóa plaintext, có thể là `ecb` hoặc `cbc`""")
+parser.add_argument(
+        "--initial_vector",
+        type=str,
+        default="00000000000000000000000000000000",
+        help="""Vector khởi tạo trong chế độ mã hóa `cbc`""")
 
 args = parser.parse_args()
 
 FILE_NAME = args.image_file
-MODE = args.mode
+MODE = args.mode.lower()
 KEY = args.key.lower()
+VECTOR = args.initial_vector
 if MODE not in ["ecb", "cbc"]:
     print("Undefined `--mode` values: This must be `ecb` or `cbc`")
     exit()
@@ -56,9 +62,9 @@ with open ("data/picture.data", "w") as f:
         f.write(f'{i:02x}')
 
 if platform.system() == 'Linux':
-    os.system(f"gcc MaHoa.c -o temp && ./temp {MODE[0]} {KEY}")
+    os.system(f"gcc MaHoa.c -o temp && ./temp {MODE[0]} {KEY} {VECTOR}")
 elif platform.system() == 'Windows':
-    os.system(f"gcc MaHoa.c -o temp & temp {MODE[0]} {KEY}")
+    os.system(f"gcc MaHoa.c -o temp & temp {MODE[0]} {KEY} {VECTOR}")
 
 a2 = []
 with open ("data/encrypted.data", "r") as f:
