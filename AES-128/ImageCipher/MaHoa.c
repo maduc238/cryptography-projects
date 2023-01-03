@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     w = KeyExpansion(key, sbox);
     uint8_t plaintext[16];
     for (int i=0; i<16; i++)
-        plaintext[i] = 0x00;
+        plaintext[i] = (uint8_t) (toInt(argv[3][2*i])*16 + toInt(argv[3][2*i+1]));
 
     char buff[32];
     FILE *fp, *fp_write;
