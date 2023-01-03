@@ -45,7 +45,10 @@ if MODE not in ["ecb", "cbc"]:
     print("Undefined --mode values: Must be `ecb` or `cbc`")
     exit()
 if len(KEY) != 32:
-    print("Len of the `--key` must be 128 bit")
+    print("Length of the `--key` must be 128 bit")
+    exit()
+if len(VECTOR) != 32:
+    print("Length of the `--initial_vector` must be 128 bit")
     exit()
 
 time_start = time.time()
