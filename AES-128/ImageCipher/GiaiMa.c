@@ -22,11 +22,8 @@ int main(int argc, char *argv[]) {
     uint8_t plaintext[16];
     uint8_t plain[16];
     uint8_t prev[16];
-    for (int i=0; i<16; i++){
-        plaintext[i] = 0x00;
-        plain[i] = 0x00;
-        prev[i] = 0x00;
-    }
+    for (int i=0; i<16; i++)
+        prev[i] = (uint8_t) (toInt(argv[3][2*i])*16 + toInt(argv[3][2*i+1]));
 
     char buff[32];
     FILE *fp, *fp_write;
