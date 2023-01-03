@@ -24,6 +24,8 @@ Mã hóa AES-128 file ảnh: Lệnh cơ bản để chạy
 ```
 ./Cipher
 ```
+Nếu không chạy được thì phải cấp thêm quyền cho file bằng cách `chmod +x ./Cipher`
+
 Ngoài ra để xem chi tiết hướng dẫn:
 ```
 ./Cipher -h
