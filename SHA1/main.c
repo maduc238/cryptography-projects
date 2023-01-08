@@ -8,7 +8,7 @@ int main(int argc, char* argv[]){
     int i, j, err;
     uint8_t Message_Digest[20];
     char *input = argv[1];
-    printf( "Input: '%s'\n", input);
+    printf( "Input: '%s'\t\n", input);
 
     err = SHA1Reset(&sha);
     if (err){
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
         "SHA1Result Error %d, không thể tính được message digest.\n", err );
     }
     else {
-        printf("\t");
+        printf("Output: ");
         for(i = 0; i < 20 ; ++i)
             printf("%02x ", Message_Digest[i]);
         printf("\n");
