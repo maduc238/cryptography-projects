@@ -36,7 +36,7 @@ Ngoài ra để xem chi tiết hướng dẫn:
 
 ![image](https://user-images.githubusercontent.com/95759699/210236838-b6b5f2f4-f2e6-49ee-82a1-cfc8028b1f8d.png)
 
-Tương tự với mã hóa là code giải mã
+Tương tự với mã hóa là code giải mã (bắt buộc phải mã hóa đúng ảnh đó trước)
 ```
 ./InverseCipher
 ```
