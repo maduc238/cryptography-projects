@@ -8,13 +8,18 @@ int main(int argc, char* argv[]){
     int i, j, err;
     uint8_t Message_Digest[20];
     char *input = argv[1];
-    printf( "Input: '%s'\t\n", input);
+    printf( "Input van ban: '%s'\t\n", input);
 
     err = SHA1Reset(&sha);
+    
     if (err){
         fprintf(stderr, "SHA1Reset Error %d.\n", err );
         return 0;
     }
+    if (argc >= 3){
+        sha.Print_Block_Input = (uint8_t) argv[2][0] - 48;      /* print padding input data */
+    }
+
     err = SHA1Input(&sha, (const unsigned char *) input, strlen(input));
     if (err) {
         fprintf(stderr, "SHA1Input Error %d.\n", err );

@@ -1,16 +1,6 @@
 /**
  * @file sha1.h
  * @author Ma Duc (mavietduc@gmail.com)
- * @brief 
- *      This is the header file for code which implements the Secure
- *      Hashing Algorithm 1 as defined in FIPS PUB 180-1 published
- *      April 17, 1995.
- *
- *      Many of the variable names in this code, especially the
- *      single character names, were used because those were the names
- *      used in the publication.
- *
- *      Please read the file sha1.c for more information.
  * 
  * @version 0.1
  * @date 2023-01-02
@@ -23,6 +13,7 @@
 #define _SHA1_H_
 
 #include <stdint.h>
+#include <stdio.h>
 
 #ifndef _SHA_enum_
 #define _SHA_enum_
@@ -30,29 +21,31 @@ enum
 {
     shaSuccess = 0,
     shaNull,            /* Null pointer parameter */
-    shaInputTooLong,    /* input data too long */
-    shaStateError       /* called Input after Result */
+    shaInputTooLong,    /* input data qua dai */
+    shaStateError       /* loi :)*/
 };
 #endif
 #define SHA1HashSize 20
 
 /*
- *  This structure will hold context information for the SHA-1
- *  hashing operation
+ *  Structure cua khoi thuc hien SHA1
  */
 typedef struct SHA1Context
 {
-    uint32_t Intermediate_Hash[SHA1HashSize/4]; /* Message Digest  */
+    uint32_t Intermediate_Hash[SHA1HashSize/4];
 
-    uint32_t Length_Low;            /* Message length in bits      */
-    uint32_t Length_High;           /* Message length in bits      */
+    uint32_t Length_Low;
+    uint32_t Length_High;
 
-                               /* Index into message block array   */
     int_least16_t Message_Block_Index;
-    uint8_t Message_Block[64];      /* 512-bit message blocks      */
+    uint8_t Message_Block[64];
 
-    int Computed;               /* Is the digest computed?         */
-    int Corrupted;             /* Is the message digest corrupted? */
+    int Computed;
+    int Corrupted;
+    int Process_Count;
+
+    uint8_t Print_Block_Input;     /* Optional, print binary tung khoi */
+
 } SHA1Context;
 
 /*

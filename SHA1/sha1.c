@@ -1,29 +1,6 @@
 /**
  * @file sha1.c
  * @author Ma Duc (mavietduc@gmail.com)
- * @brief 
- *      This file implements the Secure Hashing Algorithm 1 as
- *      defined in FIPS PUB 180-1 published April 17, 1995.
- *
- *      The SHA-1, produces a 160-bit message digest for a given
- *      data stream.  It should take about 2**n steps to find a
- *      message with the same digest as a given message and
- *      2**(n/2) to find any two messages with the same digest,
- *      when n is the digest size in bits.  Therefore, this
- *      algorithm can serve as a means of providing a
- *      "fingerprint" for a message.
- * 
- *      SHA-1 is defined in terms of 32-bit "words".  This code
- *      uses <stdint.h> (included via "sha1.h" to define 32 and 8
- *      bit unsigned integer types.  If your C compiler does not
- *      support 32 bit unsigned integers, this code is not
- *      appropriate.
- * 
- *      SHA-1 is designed to work with messages less than 2^64 bits
- *      long.  Although SHA-1 allows a message digest to be generated
- *      for messages of any number of bits less than 2^64, this
- *      implementation only works with messages with a length that is
- *      a multiple of the size of an 8-bit character.
  * 
  * @version 0.1
  * @date 2023-01-02
@@ -43,8 +20,7 @@ void SHA1PadMessage(SHA1Context *);
 void SHA1ProcessMessageBlock(SHA1Context *);
 
 /**
- * @brief This function will initialize the SHA1Context in preparation
- *      for computing a new SHA1 message digest.
+ * @brief Khoi tao SHA1Context cho SHA1 message moi
  * 
  * @param context [in/out]
  *          The context to reset.
@@ -57,6 +33,8 @@ int SHA1Reset(SHA1Context *context) {
     context->Length_Low             = 0;
     context->Length_High            = 0;
     context->Message_Block_Index    = 0;
+    context->Process_Count          = 0;
+    context->Print_Block_Input      = 0;
 
     context->Intermediate_Hash[0]   = 0x67452301;
     context->Intermediate_Hash[1]   = 0xEFCDAB89;
@@ -70,15 +48,10 @@ int SHA1Reset(SHA1Context *context) {
 }
 
 /**
- * @brief This function will return the 160-bit message digest into the
- *      Message_Digest array  provided by the caller.
- *      NOTE: The first octet of hash is stored in the 0th element,
- *            the last octet of hash in the 19th element.
+ * @brief Tra ve ket qua cuoi cung
  * 
  * @param context [in/out]
- *          The context to use to calculate the SHA-1 hash.
  * @param Message_Digest [out]
- *          Where the digest is returned.
  * @return sha Error Code.
  */
 int SHA1Result( SHA1Context *context,
@@ -108,14 +81,11 @@ int SHA1Result( SHA1Context *context,
 }
 
 /**
- * @brief This function accepts an array of octets as the next portion
- *      of the message.
+ * @brief Input tu message_array
  * 
- * @param context [in/out] The SHA context to update
+ * @param context [in/out]
  * @param message_array [in]
- *          An array of characters representing the next portion of
- *          the message.
- * @param length [in] The length of the message in message_array
+ * @param length [in] Chieu dai cua message_array
  * @return sha Error Code.
  */
 int SHA1Input(    SHA1Context    *context,
@@ -155,13 +125,21 @@ int SHA1Input(    SHA1Context    *context,
 }
 
 /**
- * @brief This function will process the next 512 bits of the message
- *      stored in the Message_Block array.
- * 
- * Comments:
- *      Many of the variable names in this code, especially the
- *      single character names, were used because those were the
- *      names used in the publication.
+ * Print binary for uint32_t 
+*/
+static void toBinary(uint32_t n)
+{
+    char binary[32];
+    int k = 0;
+    for (unsigned i = (1 << 32-1); i > 0; i = i/2) {
+        binary[k++] = (n & i) ? '1' : '0';
+    }
+    binary[k] = '\0';
+    printf("%s", binary);
+}
+
+/**
+ * @brief Ham thuc hien 512 bit cua message
  * 
  * @param context 
  */
@@ -173,13 +151,23 @@ void SHA1ProcessMessageBlock(SHA1Context *context)
     uint32_t      W[80];             /* Word sequence               */
     uint32_t      A, B, C, D, E;     /* Word buffers                */
 
+    if(context->Print_Block_Input)
+    {
+        printf("Thuc hien SHA1 khoi thu %d:\n", context->Process_Count+1);
+        context->Process_Count++;
+    }
+
     for(t = 0; t < 16; t++)
     {
         W[t] = context->Message_Block[t * 4] << 24;
         W[t] |= context->Message_Block[t * 4 + 1] << 16;
         W[t] |= context->Message_Block[t * 4 + 2] << 8;
         W[t] |= context->Message_Block[t * 4 + 3];
+        if(context->Print_Block_Input)
+            toBinary(W[t]);
     }
+    if(context->Print_Block_Input)
+        printf("\n");
 
     for(t = 16; t < 80; t++)
        W[t] = SHA1CircularShift(1,W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16]);
@@ -237,17 +225,10 @@ void SHA1ProcessMessageBlock(SHA1Context *context)
 }
 
 /**
- * @brief According to the standard, the message must be padded to an even
- *      512 bits.  The first padding bit must be a '1'.  The last 64
- *      bits represent the length of the original message.  All bits in
- *      between should be 0.  This function will pad the message
- *      according to those rules by filling the Message_Block array
- *      accordingly.  It will also call the ProcessMessageBlock function
- *      provided appropriately.  When it returns, it can be assumed that
- *      the message digest has been computed.
+ * @brief Padding message
  * 
  * @param context [in/out]
- *          The context to pad
+ *          Context duoc pad
  */
 void SHA1PadMessage(SHA1Context *context) {
     if (context->Message_Block_Index > 55) {
@@ -266,9 +247,6 @@ void SHA1PadMessage(SHA1Context *context) {
             context->Message_Block[context->Message_Block_Index++] = 0;
     }
 
-    /*
-     *  Store the message length as the last 8 octets
-     */
     context->Message_Block[56] = context->Length_High >> 24;
     context->Message_Block[57] = context->Length_High >> 16;
     context->Message_Block[58] = context->Length_High >> 8;
