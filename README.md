@@ -10,6 +10,8 @@ Repository này sẽ chứa những dự án code môn **Kỹ thuật mật mã*
 
 [Hàm băm mật mã SHA1](https://github.com/maduc238/cryptography-projects/tree/main/SHA1)
 
+[Chứng chỉ X.509](https://github.com/maduc238/cryptography-projects/tree/main/X.509)
+
 # Contributors
 
 Ma Việt Đức
