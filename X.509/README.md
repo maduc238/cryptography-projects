@@ -11,6 +11,6 @@ Code dưới đây sẽ hỗ trợ tạo chứng chỉ X.509
 Chạy trên Python3, hỗ trợ các thư viện:
 
 ```
-pip install asn1tools, rsa
+pip install asn1tools rsa
 ```
 
