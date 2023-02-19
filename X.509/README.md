@@ -1,4 +1,4 @@
-# Tạo và kiếm tra chứng thực chữ ký số X.509
+# Tạo và kiểm tra chứng thực chữ ký số X.509
 
 ## Giới thiệu chung về X.509
 
