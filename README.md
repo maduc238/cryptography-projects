@@ -12,6 +12,8 @@ Repository này sẽ chứa những dự án code môn **Kỹ thuật mật mã*
 
 [Chứng chỉ X.509](https://github.com/maduc238/cryptography-projects/tree/main/X.509)
 
+[Thuật toán chữ ký số ECDSA](https://github.com/maduc238/cryptography-projects/tree/main/ECDSA)
+
 # Contributors
 
 Ma Việt Đức
