@@ -6,7 +6,7 @@ Với Private ket là $d$, Public key là $Q$: $Q=[d]G$
 
 Mã hóa plaintext $P_m$ được ciphertext:
 
-$$C_{m} =\{[ k] G,\ P_{m} +[ k] Q\}$$
+$$A =[ k] G, B= \ P_{m} +[ k] Q$$
 
 Giải mã được plaintext:
 
