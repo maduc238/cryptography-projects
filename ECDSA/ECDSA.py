@@ -90,6 +90,18 @@ def verify_signature(signature, message, public_key):
     c_point = g_point.multiply(u).add(public_key.multiply(v))
     return c_point.x == r
 
+def ECC_encode(key_point, pub_ECC):
+    k = random.randint(1, n)
+    Cm1 = g_point.multiply(k)
+    Cm2 = key_point.add(pub_ECC.multiply(k))
+    return Cm1, Cm2
+
+def ECC_decode(Cm, priv_ECC):
+    (a,b) = Cm
+    c = a.multiply(priv_ECC)
+    c.y = - c.y
+    return c.add(b)
+
 private_key = 123456789012345  # số nguyên ngẫu nhiên
 public_key = g_point.multiply(private_key)
 
