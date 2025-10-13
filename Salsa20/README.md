@@ -60,7 +60,7 @@ Nếu $y = (y_0, y_1, y_2,..., y_{15})$ thì `rowround(y)` -> $(z_0, z_1, z_2,..
 - $(z_{10}, z_{11}, z_8, z_9) = quarterround(y_{10}, y_{11}, y_8, y_9)$
 - $(z_{15}, z_{12}, z_{13}, z_{14}) = quarterround(y_{15}, y_{12}, y_{13}, y_{14})$
 
-Nhìn ma trận bên trên sẽ thấy được quy luật của nó :new_moon_with_face:
+Nhìn ma trận bên trên sẽ thấy được quy luật của nó :)))
 
 ### Ví dụ
 ```
@@ -117,10 +117,10 @@ columnround(0x08521bd6, 0x1fe88837, 0xbb2aa576, 0x3aa26365,
 ### input và output
 Nếu $x$ là một chuỗi 16 **word** thì `columnround(x)` là một chuỗi 16 **word**
 ### Định nghĩa
-Nghe tên là biết thực hiện round 2 lần :satisfied:. Vì vậy chính xác định nghĩa hàm này là
+Nghe tên là biết thực hiện round 2 lần. Vì vậy chính xác định nghĩa hàm này là
 `doubleround(x) = rowround(columnround(x))`
 
-Còn ví dụ thì nếu 2 hàm trên chính xác rồi, không cần test nữa :sunglasses:
+Còn ví dụ thì nếu 2 hàm trên chính xác rồi, không cần test nữa :)))
 
 ## 7. Hàm `littleendian`
 ### input và output
@@ -231,8 +231,7 @@ $Salsa20_k(v) ⊕ (m[0], m[1], ..., m[l-1]) = (c[0], c[1], ..., c[l-1])$
 
 Khi $c[i] = m[i] ⊕ Salsa20_k(v, \bar{int(i/64)})[i mod 64]$
 
-Để dễ hiểu hơn :dizzy_face: thì cách tạo cipher text sẽ như hình dưới
+Để dễ hiểu hơn, cách tạo cipher text sẽ như hình dưới:
 
 ![image](https://user-images.githubusercontent.com/95759699/200104685-63bace58-3628-4240-9374-ad7cc15092fa.png)
 
-Thế là hết :smiley:
