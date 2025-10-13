@@ -3,7 +3,8 @@ References: [Announcing the ADVANCED ENCRYPTION STANDARD (AES)](https://nvlpubs.
 ## 1. Giới thiệu chung
 Chuẩn mã hóa AES - ADVANCED ENCRYPTION STANDARD là một loại mã khối để xử lý dữ liệu đầu vào **128 bit**, cùng với khóa **key** có các kiểu độ dài là **128**, **192**, và **256 bit** tương ứng các chuẩn của mã hóa này: ***“AES-128”***, ***“AES-192”***, và ***“AES-256”***
 
-Còn các định nghĩa về toán học, những cái đã đề cập trong mã hóa [Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20) mình sẽ bỏ qua, còn giờ chỉ nói một vài ký hiệu mới thôi :stuck_out_tongue_winking_eye:
+Còn các định nghĩa về toán học, những cái đã đề cập trong mã hóa [Salsa20](https://github.com/maduc238/cryptography-projects/tree/main/Salsa20) mình sẽ bỏ qua, còn giờ chỉ nói một vài ký hiệu mới thôi.
+
 ### 1.1. Phép nhân với x
 Nhân đa thức nhị phân với đa thức $x$:
 
@@ -61,7 +62,7 @@ Dưới dạng ma trận, biến đổi affine của S-box có thể được bi
 Và cuối cùng sau phép biến đổi toán học, S-box cụ thể sẽ có những giá trị như sau:
 ![image](https://user-images.githubusercontent.com/95759699/203770811-505b5f22-853a-4a82-9055-e247a00853e1.png)
 
-Giải thích cách dùng: Nếu một byte dạng hex là $s_{1,1}$={5,3} thì ta tra số ***5*** tương ứng với hàng (nghĩa là $x$) và số ***3*** tương ứng với cột (nghĩa là $y$), khi dò bảng thì kết quả thu được là {ed}. Nghe khá dễ dúng không :smiley:
+Giải thích cách dùng: Nếu một byte dạng hex là $s_{1,1}$={5,3} thì ta tra số ***5*** tương ứng với hàng (nghĩa là $x$) và số ***3*** tương ứng với cột (nghĩa là $y$), khi dò bảng thì kết quả thu được là {ed}.
 
 Vậy tựu chung lại, hàm **SubBytes()** chỉ đơn giản là phép biến đối byte từ S-box thôi!
 ![image](https://user-images.githubusercontent.com/95759699/203771597-98ef8fc1-eece-4674-90f1-7ae6d9570484.png)
